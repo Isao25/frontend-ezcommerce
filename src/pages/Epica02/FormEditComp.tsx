@@ -351,6 +351,7 @@ export function FormEditComp() {
               <FormLabel>Código QR</FormLabel>
               <FormControl>
                 <Input
+                  type="file"
                   placeholder="Código"
                   disabled={!isEditing}
                   {...field}
