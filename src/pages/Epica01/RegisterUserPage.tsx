@@ -31,19 +31,28 @@ const formSchema = z.object({
   nombres: z
     .string({ message: "Nombres inválidos" })
     .min(1, { message: "Nombres inválidos" })
-    .max(200, { message: "Nombres deben tener como máximo 200 carácteres" }),
+    .max(200, { message: "Nombres deben tener como máximo 200 carácteres" })
+    .regex(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+(\s[a-zA-ZáéíóúÁÉÍÓÚñÑ]+)*$/, { 
+       message: "Formato inválido: solo letras, sin espacios al inicio/final ni múltiples espacios consecutivos" 
+    }),
   apellido_p: z
     .string({ message: "Apellidos inválidos" })
     .min(1, { message: "Apellidos inválidos" })
-    .max(200, { message: "Apellidos deben tener como máximo 200 carácteres" }),
+    .max(200, { message: "Apellidos deben tener como máximo 200 carácteres" })
+    .regex(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+(\s[a-zA-ZáéíóúÁÉÍÓÚñÑ]+)*$/, { 
+       message: "Formato inválido: solo letras, sin espacios al inicio/final ni múltiples espacios consecutivos" 
+    }),
   apellido_m: z
     .string({ message: "Apellidos inválidos" })
     .min(1, { message: "Apellidos inválidos" })
-    .max(200, { message: "Apellidos deben tener como máximo 200 carácteres" }),
+    .max(200, { message: "Apellidos deben tener como máximo 200 carácteres" })
+    .regex(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+(\s[a-zA-ZáéíóúÁÉÍÓÚñÑ]+)*$/, { 
+       message: "Formato inválido: solo letras, sin espacios al inicio/final ni múltiples espacios consecutivos" 
+    }),
   codigo: z
     .string({ message: "Código inválido" })
     .regex(/^\d+$/, { message: "El código debe contener solo números." })
-    .min(1, { message: "Código inválido" })
+    .min(8, { message: "Código inválido" })
     .max(8, { message: "Código debe tener como máximo 8 carácteres" }),
   celular: z
     .string({ message: "Celular inválido" })
@@ -64,7 +73,12 @@ const formSchema = z.object({
     ])
     .optional()
     .nullable(),
-  id_escuela: z.number({ required_error: "Seleccione una escuela" }),
+  id_escuela: z
+    .number({
+      required_error: "Seleccione una escuela",
+      invalid_type_error: "Seleccione una escuela",
+    })
+    .min(1, { message: "Debe seleccionar una escuela" }),
   email: z
     .string({ message: "Email inválido" })
     .email({ message: "Email inválido" })
@@ -75,12 +89,10 @@ const formSchema = z.object({
   password: z
     .string({ message: "Contraseña inválida" })
     .min(6, { message: "Contraseña debe tener como mínimo 6 carácteres" }),
-  username: z
-    .string(),
+  username: z.string(),
 });
 
 type FormFields = z.infer<typeof formSchema>;
-
 
 import { AxiosResponse } from "axios";
 
@@ -90,7 +102,8 @@ interface LoaderData {
 
 export async function loader(): Promise<LoaderData> {
   try {
-    const response: AxiosResponse<APIResponse> = await escuelasService.getEscuelas();
+    const response: AxiosResponse<APIResponse> =
+      await escuelasService.getEscuelas();
     const escuelasData = response.data.results;
     return { escuelasData };
   } catch (error) {
@@ -100,7 +113,6 @@ export async function loader(): Promise<LoaderData> {
 }
 
 export const RegisterPage = () => {
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -248,7 +260,7 @@ export const RegisterPage = () => {
                             onValueChange={(value) =>
                               field.onChange(Number(value))
                             }
-                            defaultValue={field.value?.toString()}
+                            value={field.value?.toString() || ""}
                           >
                             <FormControl>
                               <SelectTrigger>
@@ -260,7 +272,7 @@ export const RegisterPage = () => {
                                 (escuela: EscuelaProfesional) => (
                                   <SelectItem
                                     key={escuela.id}
-                                    value={escuela.id!}
+                                    value={escuela.id!.toString() || ""}
                                   >
                                     {escuela.nombre}
                                   </SelectItem>
