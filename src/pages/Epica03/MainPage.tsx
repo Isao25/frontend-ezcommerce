@@ -9,7 +9,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import { CategoriesCard, SellersCard } from '../../components/cards';
-import { categories, distinguishedSellers, images } from '../../mocks/mainPage-mocks';
+import { categories, images } from '../../mocks/mainPage-mocks';
 import { ProductCard } from '../../components/cards/product-card';
 import { LoginModal } from '@/components/Epica5/LoginModal';
 import { useTrademark } from '@/hooks/useTrademark';
@@ -25,7 +25,7 @@ export const MainPage = () => {
   const { authState, setLoginModal } = useAuth();
   const { marca, membresia, plan } = useTrademark();
   const [products, setProducts] = useState<Articulo[]>([])
-  const [escuelas, setEscuelas] = useState<EscuelaProfesional[]>([])
+  const [_escuelas, setEscuelas] = useState<EscuelaProfesional[]>([])
   const [sellers, setSellers] = useState<Usuario[]>([])
 
   console.log("User id:", authState.userId);
@@ -98,14 +98,14 @@ export const MainPage = () => {
             }}
           >
             <CarouselContent>
-              {images.map((i, index) => (
+              {images.map((i, _index) => (
                 <CarouselItem>
                   <div
-                    key={`d-${index}`}
+                    key={`d-${i.alt}`}
                     className="overflow-hidden rounded-lg shadow-lg max-h-[500px]"
                   >
                     <img
-                      key={`i-${index}`}
+                      key={`i-${i.alt}`}
                       src={i.src}
                       alt={i.alt}
                       className="w-full h-full object-cover"
@@ -159,7 +159,7 @@ export const MainPage = () => {
             {categories.map((category, index) => (
               <CategoriesCard
                 id={category.id.toString()}
-                key={`cc-${index}`}
+                key={`cc-${category.id}`}
                 image={category.image}
                 title={category.title}
                 description={category.description}
@@ -186,11 +186,11 @@ export const MainPage = () => {
                 {sellers.map((seller, index) => (
                   <>
                     <CarouselItem
-                      key={`ci-${index}`}
+                      key={`ci-${seller.id}`}
                       className="basis-1/1 sm:basis-1/2 md:basis-1/3 xl:basis-1/5"
                     >
                       <SellersCard
-                        key={`sc-${index}`}
+                        key={`sc-${seller.id}`}
                         id={seller.id?.toString() || index.toString()}
                         name={`${seller.nombres} ${seller.apellido_p}`}
                       />

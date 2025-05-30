@@ -316,7 +316,7 @@ export function Chat() {
                 <div className="flex text-center flex-col justify-center items-center gap-1">
                   <div
                     className="p-4 hover:bg-accent rounded-full cursor-pointer"
-                    onClick={(e) => alert("Hola")}
+                    onClick={(e) => alert(e)}
                   >
                     <BellOff className="h-5 w-5" />
                   </div>

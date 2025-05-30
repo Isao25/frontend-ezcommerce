@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { CardShoppingCart } from "./CardShoppingCart";
 import { ProductCart } from "../../helpers/getProducCart";

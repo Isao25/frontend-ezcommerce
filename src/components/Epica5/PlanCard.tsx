@@ -48,7 +48,7 @@ export const PlanCard = ({planCard}:PlanCardProps) => {
           <p className="font-semibold text-base">Beneficios:</p>
           <ul>
             {planCard.beneficios?.map((beneficio, index) => (
-              <li key={index} className="pt-3 flex items-center gap-2">
+              <li key={`pc-${index}`} className="pt-3 flex items-center gap-2">
                 <CircleCheck size={13} className="min-w-3" color="green" />
                 <div>{beneficio}</div>
               </li>

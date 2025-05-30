@@ -73,12 +73,11 @@ export const categories = [
     },
   ];
 
-  export const mockProducts: IProductCardProps[] = [
+export const mockProducts: IProductCardProps[] = [
     {
         id: 1,
         name: "Smartphone X",
         price: 499.99,
-        isFavourite: true,
         img: TestProduct,
         brand: "BrandX",
         qualification: 4.5
@@ -87,7 +86,6 @@ export const categories = [
         id: 2,
         name: "Laptop Pro",
         price: 1299.99,
-        isFavourite: false,
         img: TestProduct,
         brand: "TechMaster",
         qualification: 4.7
@@ -96,7 +94,6 @@ export const categories = [
         id: 3,
         name: "Wireless Earbuds",
         price: 99.99,
-        isFavourite: true,
         img: TestProduct,
         brand: "SoundMax",
         qualification: 4.3
@@ -105,7 +102,6 @@ export const categories = [
         id: 4,
         name: "4K TV",
         price: 799.99,
-        isFavourite: false,
         img: TestProduct,
         brand: "UltraVision",
         qualification: 4.6
@@ -114,7 +110,6 @@ export const categories = [
         id: 5,
         name: "Smartwatch Series 5",
         price: 199.99,
-        isFavourite: true,
         img: TestProduct,
         brand: "WearableTech",
         qualification: 4.2
@@ -123,7 +118,6 @@ export const categories = [
         id: 6,
         name: "Gaming Console",
         price: 499.99,
-        isFavourite: false,
         img: TestProduct,
         brand: "PlayMaster",
         qualification: 4.8
@@ -132,7 +126,6 @@ export const categories = [
         id: 7,
         name: "Bluetooth Speaker",
         price: 49.99,
-        isFavourite: false,
         img: TestProduct,
         brand: "SoundWave",
         qualification: 4.0
@@ -141,7 +134,6 @@ export const categories = [
         id: 8,
         name: "Tablet Pro",
         price: 349.99,
-        isFavourite: true,
         img: TestProduct,
         brand: "TabCo",
         qualification: 4.4
