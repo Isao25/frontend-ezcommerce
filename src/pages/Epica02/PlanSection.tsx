@@ -3,6 +3,7 @@ import { useTrademark } from "@/hooks/useTrademark";
 import { CircleCheck } from "lucide-react";
 import { useNavigate } from "react-router";
 import { planGratuito } from "../Epica05";
+import { hash } from "../../utils/strings";
 
 export const PlanSection = () => {
   const {plan, setGratisModal}=useTrademark();
@@ -28,7 +29,7 @@ export const PlanSection = () => {
           <div className="pt-7">
             <p className="font-semibold">Beneficios</p>
             <ul>
-              {plan?plan.beneficios:planGratuito.beneficios!.map((beneficio)=>(<li className="flex gap-2 items-center">
+              {plan?plan.beneficios:planGratuito.beneficios!.map((beneficio)=>(<li key={`bp-${hash(beneficio)}`} className="flex gap-2 items-center">
                 <CircleCheck size={13} color="green" />
                 <div>{beneficio}</div>
               </li>))}

@@ -12,19 +12,25 @@ const imagesApi = axios.create({
 });
 
 // Interceptor para agregar el token de acceso a las solicitudes
-imagesApi.interceptors.request.use((config) => {
-    const tokens = JSON.parse(localStorage.getItem("tokens") || "{}");
-    const accessToken = tokens?.access || null;
-    
+imagesApi.interceptors.request.use(
+  (config) => {
+    const tokens = JSON.parse(localStorage.getItem("tokens") ?? "{}");
+    const accessToken = tokens?.access ?? null;
+
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     } else {
       console.log("No access token found");
     }
     return config;
-  }, (error) => {
-    return Promise.reject(error);
-});
+  },
+  (error) => {
+    return Promise.reject(
+      error instanceof Error ? error : new Error("Request interceptor error")
+    );
+  }
+);
+
 
 export const getAllImages = () => {
     return imagesApi.get('/');

@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/select";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
-//import { Textarea } from "@/components/ui/textarea";
+
 interface Escuelas {
   id: number;
   id_facultad: number;
@@ -35,7 +35,7 @@ export function FormEditComp() {
   const userId = authState.userId;
   const { toast } = useToast();
 
-  //const [isMarca, setIsMarca] = useState(true);
+  
   const [isEditing, setIsEditing] = useState(false);
   const [escuelas, setEscuelas] = useState<Escuelas[]>([]);
   const [userData, setUserData] = useState<UserData>();
@@ -79,7 +79,9 @@ export function FormEditComp() {
         );
         const dataEscuelas = await response.json();
         setEscuelas(dataEscuelas.results);
-      } catch (error) {}
+      } catch (error) {
+        console.error(error);
+      }
     };
     fetchEscuelas();
   }, []);
@@ -132,7 +134,7 @@ export function FormEditComp() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || "Error en actualizar los datos");
+        throw new Error(errorData.message ?? "Error en actualizar los datos");
       }
       toast({
         title: "Datos actualizados ✅",

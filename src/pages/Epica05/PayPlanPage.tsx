@@ -6,7 +6,7 @@ import { Plan } from "@/types";
 
 export const PayPlanPage = () => {
   const navigate = useNavigate();
-  const planSeleccionado:Plan  | null = JSON.parse(localStorage.getItem("planSeleccionado") || "null");
+  const planSeleccionado:Plan  | null = JSON.parse(localStorage.getItem("planSeleccionado") ?? "null");
 
   return (
     <>
@@ -22,7 +22,7 @@ export const PayPlanPage = () => {
         </p>
         <div className="flex flex-col md:flex-row pt-12 gap-24">
           <div className="flex">
-            <img className="flex-1 justify-center" src={qr} width={500} />
+            <img className="flex-1 justify-center" alt={'qr-code'} src={qr} width={500} />
           </div>
           <div className="self-center">
             <p className="font-bold text-3xl text-secondaryLight ">S/{planSeleccionado?.precio}.00</p>

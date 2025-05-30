@@ -64,7 +64,7 @@ export const MainPage = () => {
   
         const productsWithImages = articulos.map((product:Articulo) => ({
           ...product,
-          imageUrl: imageMap[product.id] || null,
+          imageUrl: imageMap[product.id] ?? null,
         }));
   
         setProducts(productsWithImages);
@@ -99,7 +99,7 @@ export const MainPage = () => {
           >
             <CarouselContent>
               {images.map((i, _index) => (
-                <CarouselItem>
+                <CarouselItem key={`ci-${i.alt}`}>
                   <div
                     key={`d-${i.alt}`}
                     className="overflow-hidden rounded-lg shadow-lg max-h-[500px]"
@@ -136,7 +136,7 @@ export const MainPage = () => {
                     name={p.nombre}
                     price={p.precio}
                     qualification={4.4}
-                    img={p.imageUrl || "default-image-url.jpg"}
+                    img={p.imageUrl ?? "default-image-url.jpg"}
                   />
                 </CarouselItem>
               ))}
@@ -184,18 +184,18 @@ export const MainPage = () => {
             >
               <CarouselContent className="mb-24 mx-2">
                 {sellers.map((seller, index) => (
-                  <>
+                  
                     <CarouselItem
                       key={`ci-${seller.id}`}
                       className="basis-1/1 sm:basis-1/2 md:basis-1/3 xl:basis-1/5"
                     >
                       <SellersCard
                         key={`sc-${seller.id}`}
-                        id={seller.id?.toString() || index.toString()}
+                        id={seller.id?.toString() ?? index.toString()}
                         name={`${seller.nombres} ${seller.apellido_p}`}
                       />
                     </CarouselItem>
-                  </>
+                 
                 ))}
               </CarouselContent>
               <div className="absolute bottom-8  left-1/2 transform -translate-x-1/3 flex space-x-10 ">

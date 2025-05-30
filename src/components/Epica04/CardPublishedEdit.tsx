@@ -28,8 +28,8 @@ export const CardPublishedEdit: React.FC<CardPublishedEditProps> = ({
   useEffect(() => {
     const fetchImage = async () => {
       try {
-        const image = await LoadImageMajor(product.id); 
-        setImageUrl(image[0]?.url || null); 
+        const image = await LoadImageMajor(product.id);
+        setImageUrl(image[0]?.url ?? null);
       } catch (error) {
         console.error("Error al cargar la imagen principal:", error);
         setImageUrl(null); // En caso de error, se evita mostrar una imagen rota
@@ -40,26 +40,35 @@ export const CardPublishedEdit: React.FC<CardPublishedEditProps> = ({
 
     fetchImage();
   }, [product.id]);
-  
+
+  let imageContent;
+  if (loadingImage) {
+    imageContent = (
+      <div className="flex items-center justify-center h-full bg-gray-100">
+        <span className="text-gray-500 text-sm">Cargando...</span>
+      </div>
+    );
+  } else if (imageUrl) {
+    imageContent = (
+      <img
+        src={imageUrl}
+        alt={product.nombre}
+        className="object-cover w-full h-full"
+      />
+    );
+  } else {
+    imageContent = (
+      <div className="flex items-center justify-center h-full bg-gray-100">
+        <span className="text-gray-500 text-sm">Sin imagen</span>
+      </div>
+    );
+  }
+
   return (
     <Card className="w-52 p-3 overflow-hidden">
       <CardContent className="p-0">
         <div className="aspect-square overflow-hidden rounded-md mb-4">
-          {loadingImage ? (
-            <div className="flex items-center justify-center h-full bg-gray-100">
-              <span className="text-gray-500 text-sm">Cargando...</span>
-            </div>
-          ) : imageUrl ? (
-            <img
-              src={imageUrl}
-              alt={product.nombre}
-              className="object-cover w-full h-full"
-            />
-          ) : (
-            <div className="flex items-center justify-center h-full bg-gray-100">
-              <span className="text-gray-500 text-sm">Sin imagen</span>
-            </div>
-          )}
+          {imageContent}
         </div>
         <div className="py-3 px-2">
           <div className="flex items-center justify-center text-white bg-[#FBC116] rounded-3xl w-[68px] py-1 px-4 mb-3">

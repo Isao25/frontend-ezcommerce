@@ -4,6 +4,7 @@ import { CircleCheck } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Plan } from "@/types";
 import { toast } from "sonner";
+import { hash } from "../../utils/strings";
 
 interface PlanCardProps{
   planCard:Plan,
@@ -47,8 +48,8 @@ export const PlanCard = ({planCard}:PlanCardProps) => {
         <div className="text-start pt-5 pb-5">
           <p className="font-semibold text-base">Beneficios:</p>
           <ul>
-            {planCard.beneficios?.map((beneficio, index) => (
-              <li key={`pc-${index}`} className="pt-3 flex items-center gap-2">
+            {planCard.beneficios?.map((beneficio, _index) => (
+              <li key={`pc-${hash(beneficio)}`} className="pt-3 flex items-center gap-2">
                 <CircleCheck size={13} className="min-w-3" color="green" />
                 <div>{beneficio}</div>
               </li>

@@ -9,6 +9,7 @@ import { SheetComponent } from "./SheetComponent";
 import { Button } from "../ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { useNavigate } from "react-router";
+import { hash } from "../../utils/strings";
 
 const navigationItems = [
   { item: 'Venta', link: '/products-management' },
@@ -29,14 +30,14 @@ export const NavigationComponent = () => {
   };
 
   return (
-    <>
+    
       <NavigationMenu>
         <NavigationMenuList className="space-x-8 flex flex-wrap">
           <NavigationMenuItem>
             <SheetComponent />
           </NavigationMenuItem>
-          {navigationItems.map((item, index) => (
-            <NavigationMenuItem key={index}>
+          {navigationItems.map((item, _index) => (
+            <NavigationMenuItem key={`nm-${hash(item.item)}`}>
               <Button
                 variant="link"
                 onClick={() => handleNavigationClick(item.link)}
@@ -47,6 +48,6 @@ export const NavigationComponent = () => {
           ))}
         </NavigationMenuList>
       </NavigationMenu>
-    </>
+   
   );
 };

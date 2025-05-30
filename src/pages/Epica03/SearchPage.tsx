@@ -100,7 +100,7 @@ export const SearchPage = () => {
   
       const articulosConImagenes = articulos.map((articulo:Articulo) => ({
         ...articulo,
-        imageUrl: imageMap[articulo.id] || null, 
+        imageUrl: imageMap[articulo.id] ?? null, 
       }));
   
       setItems(articulosConImagenes); 

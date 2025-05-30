@@ -52,7 +52,7 @@ type FormFields3 = z.infer<typeof formSchema3>;
 export const RecoverAccountModal = () => {
     const navigate = useNavigate()
 
-    const [open, setIsOpen] = useState(false)
+    const [open, setOpen] = useState(false)
     const [show1, setShow1] = useState(true);
     const [show2, setShow2] = useState(false);
     const [show3, setShow3] = useState(false);
@@ -67,11 +67,12 @@ export const RecoverAccountModal = () => {
     async function onSubmit1(values: FormFields) {
         try {
             const { email } = values;
-
+            console.log(email)
             setShow1(false);
             setShow2(true);
         }
         catch (error) {
+            console.error(`Exception while submiting: ${error}`)
             toast.error("Email no válido");
         }
 
@@ -87,11 +88,12 @@ export const RecoverAccountModal = () => {
     async function onSubmit2(values: FormFields2) {
         try {
             const { code } = values;
-
+            console.log(code)
             setShow2(false);
             setShow3(true);
         }
         catch (error) {
+            console.error(`Exception while submiting: ${error}`)
             toast.error("Código no válido");
         }
 
@@ -115,12 +117,13 @@ export const RecoverAccountModal = () => {
             closePopover();
 
         } catch (error) {
+            console.error(`Exception while submiting: ${error}`)
             toast.error("No se pudo restablecer la contraseña.");
         }
     }
 
     const closePopover = () => {
-        setIsOpen(false);
+        setOpen(false);
         restoreModals();
     };
 
@@ -135,7 +138,7 @@ export const RecoverAccountModal = () => {
          {open && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 z-10" />
             )}
-            <Popover open={open} onOpenChange={(isOpen) => setIsOpen(isOpen)} modal={true}>
+            <Popover open={open} onOpenChange={(isOpen) => setOpen(isOpen)} modal={true}>
                 <PopoverTrigger asChild>
                     <p className="cursor-pointer">¿Olvidaste tu contraseña?</p>
                 </PopoverTrigger>

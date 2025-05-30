@@ -31,7 +31,7 @@ export const ModalMessage = ({
   children,
 }: ModalMessageProps) => {
 
-  const handleButtonClick = buttonFunc ? buttonFunc : () => setIsOpen(false);
+  const handleButtonClick = buttonFunc ?? (() => setIsOpen(false));
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>

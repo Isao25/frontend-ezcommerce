@@ -8,19 +8,24 @@ export const usuariosApi = axios.create({
 });
 
 // Interceptor para agregar el token de acceso a las solicitudes
-usuariosApi.interceptors.request.use((config) => {
-  const tokens = JSON.parse(localStorage.getItem("tokens") || "{}");
-  const accessToken = tokens?.access || null;
-  
-  if (accessToken) {
-    config.headers.Authorization = `Bearer ${accessToken}`;
-  } else {
-    console.log("No access token found");
+usuariosApi.interceptors.request.use(
+  (config) => {
+    const tokens = JSON.parse(localStorage.getItem("tokens") ?? "{}");
+    const accessToken = tokens?.access ?? null;
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    } else {
+      console.log("No access token found");
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(
+      error instanceof Error ? error : new Error("Request interceptor error")
+    );
   }
-  return config;
-}, (error) => {
-  return Promise.reject(error);
-});
+);
+
 
 export const createUsuario = (usuario:Usuario) => {
   return usuariosApi.post('/', usuario);

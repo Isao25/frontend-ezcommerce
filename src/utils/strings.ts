@@ -4,3 +4,6 @@ export const truncateString = (text: string, maxLength: number): string => {
     }
     return text;
 }
+
+export const hash = (str: string) =>
+  str.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);

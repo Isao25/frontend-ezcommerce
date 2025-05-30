@@ -38,6 +38,7 @@ import { Link } from "react-router-dom";
 import { LoadImageMajor } from "@/helpers/getImageMajor";
 import { useCartContext } from "../../context/CartContext";
 import { useFavouritesContext } from "@/context/FavouritesContext";
+import { hash } from "../../utils/strings";
 
 type Image = {
   id: number;
@@ -190,7 +191,7 @@ export function ProductDetailsPage() {
             </Card>
             <div className="grid grid-cols-4 gap-2 w-full">
               {images.slice(1).map((url, id) => (
-                <Card key={id} className="flex justify-center items-center">
+                <Card key={`c-${hash(url)}`} className="flex justify-center items-center">
                   <CardContent className="p-0">
                     <div className="flex justify-center items-center aspect-square relative">
                       <img

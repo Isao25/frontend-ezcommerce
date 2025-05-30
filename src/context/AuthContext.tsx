@@ -19,7 +19,7 @@ export let logout: () => void;
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [authState, setAuthState] = useState<AuthState>(() => {
     const tokens: Tokens | null = JSON.parse(
-      localStorage.getItem("tokens") || "null"
+      localStorage.getItem("tokens") ?? "null"
     );
     if (tokens) {
       const { access } = tokens;
@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   refreshAccessToken = async (): Promise<Tokens | null> => {
     const tokens: Tokens | null = JSON.parse(
-      localStorage.getItem("tokens") || "null"
+      localStorage.getItem("tokens") ?? "null"
     );
     if (tokens?.refresh) {
       try {

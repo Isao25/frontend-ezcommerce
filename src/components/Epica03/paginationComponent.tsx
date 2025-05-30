@@ -35,7 +35,7 @@ export const PaginationComp = ({
                 {/* Botón de "Página Anterior" */}
                 <PaginationItem >
                     <PaginationPrevious 
-                        isActive={!(currentPage === 1)}
+                        isActive={currentPage !== 1}
                         onClick={(e) => {
                             e.preventDefault();
                             if (currentPage > 1) onPageChange(currentPage - 1);
@@ -61,7 +61,7 @@ export const PaginationComp = ({
                 {/* Botón de "Página Siguiente" */}
                 <PaginationItem >
                     <PaginationNext
-                        isActive={!(currentPage === totalPages)}
+                        isActive={currentPage !== totalPages}
                         onClick={(e) => {
                             e.preventDefault();
                             if (currentPage < totalPages) onPageChange(currentPage + 1);

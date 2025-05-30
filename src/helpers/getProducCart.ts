@@ -37,7 +37,7 @@ export const getProductCart = async (id: number): Promise<ProductCart> => {
 
       if (catalogo?.id_usuario) {
         const userResponse = await getUsuarios(catalogo.id_usuario);
-        ownerProduct = userResponse.data?.nombres || ownerProduct;
+        ownerProduct = userResponse.data?.nombres ?? ownerProduct;
       }
     } catch (error) {
       console.error(`Error al obtener el usuario del catálogo:`, error);

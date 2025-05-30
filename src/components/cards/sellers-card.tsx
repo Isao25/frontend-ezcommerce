@@ -15,7 +15,7 @@ export const SellersCard = (
         const goToProfile = () => navigate(`/profile-buyer?id=${id}`)
 
         return(
-            <>
+            
                 <div className="flex flex-col bg-white shadow-lg rounded-lg max-w-[280px] h-[330px] p-4">
                     <div className="rounded-lg overflow-hidden">
                         <img
@@ -34,12 +34,12 @@ export const SellersCard = (
                             <button className='rounded-full bg-[#B7B7B7] bg-opacity-45 p-2'
                                onClick={goToProfile}
                             >
-                                <img className='h-7 w-7' src={rightArrow} />
+                                <img className='h-7 w-7' src={rightArrow} alt={'flecha-derecha'} />
                             </button>
                         </div>
                     </div>
                 </div>
-            </>
+           
         )
 }
 

@@ -21,10 +21,10 @@ export class AxiosProtectedService extends AxiosService {
 
   addInterceptors() {
     this.instance.interceptors.request.use((config) => {
-      const tokens: Tokens | null = JSON.parse(localStorage.getItem("tokens") || "null");
+      const tokens: Tokens | null = JSON.parse(localStorage.getItem("tokens") ?? "null");
       if (tokens?.access) {
-          config.headers.Authorization = `Bearer ${tokens.access}`;
-          console.log("request with auth header :)");
+        config.headers.Authorization = `Bearer ${tokens.access}`;
+        console.log("request with auth header :)");
       }
       return config;
     });
@@ -43,13 +43,16 @@ export class AxiosProtectedService extends AxiosService {
               originalRequest.headers.Authorization = `Bearer ${newTokens.access}`;
               return this.instance(originalRequest);
             }
-          } catch (refreshError) {
-            console.error("Error refreshing token:", refreshError);
             logout();
+            return Promise.reject(new Error("Token refresh failed (no tokens returned)"));
+          } catch (e) {
+            console.error("Error refreshing token:", e);
+            logout();
+            return Promise.reject(new Error("Token refresh failed"));
           }
         }
 
-        return Promise.reject(error);
+        return Promise.reject(new Error("Request failed")); // <- más genérico pero válido
       }
     );
   }

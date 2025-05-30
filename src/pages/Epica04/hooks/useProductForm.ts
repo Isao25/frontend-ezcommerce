@@ -4,13 +4,12 @@ import * as z from "zod";
 import { useNavigate } from "react-router-dom";
 import { UploadedImage } from "./useImageUpload";
 import { createArticulo, Articulo, updateArticulo } from "../../../api/apiArticulos";
-import { createImage } from "../../../api/apiImages";
+import { createImage, updateImage } from "../../../api/apiImages";
 import { getFileURL } from "../../../utils/helpers";
 import { useAuth } from "@/hooks/useAuth";
 import { LoadCatalogos } from "../../../helpers/LoadCatalogos";
 import { useEffect, useState } from "react";
 import { LoadUsuarios } from "../../../helpers/getUser";
-import { updateImage } from "../../../api/apiImages";
 
 // Esquema de validación de Zod
 const formSchema = z.object({
@@ -74,11 +73,11 @@ export const useProductForm = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      nombre: product?.nombre || "",
-      descripcion: product?.descripcion || "",
-      precio: product?.precio || 0,
-      stock: product?.stock || 1,
-      etiquetas: product?.etiquetas || [],
+      nombre: product?.nombre ?? "",
+      descripcion: product?.descripcion ?? "",
+      precio: product?.precio ?? 0,
+      stock: product?.stock ?? 1,
+      etiquetas: product?.etiquetas ?? [],
       id_marca: product?.id_marca ?? null,
       is_marca: product?.id_marca ? true : false,
     },

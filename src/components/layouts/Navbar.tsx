@@ -7,6 +7,7 @@ import { NavigationComponent } from "./NavigationComponent";
 import { useAuth } from "@/hooks/useAuth";
 import { useState } from "react";
 import { useCartContext } from "../../context/CartContext";
+import { hash } from "../../utils/strings";
 const icons = [
   { component: <Bell size={28} className="text-secondaryLight" />, link: "/chat" },
   {
@@ -70,8 +71,8 @@ export const Navbar = () => {
         <div className="flex items-center space-x-4 ml-3">
           {authState.userId ? (
             <>
-              {icons.map((icon, index) => (
-                <Button key={index} variant="ghost" size="icon">
+              {icons.map((icon, _index) => (
+                <Button key={hash(icon.link)} variant="ghost" size="icon">
                   <NavLink to={icon.link}>{icon.component}</NavLink>
                 </Button>
               ))}

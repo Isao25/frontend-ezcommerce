@@ -5,6 +5,7 @@ import { GratisModal } from "../../components/Epica5/GratisModal";
 import { useLoaderData } from "react-router";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { planesService } from "@/api/apiMarcas";
+import { hash } from "../../utils/strings";
 
 const beneficios_basicos = [
   "Publica tus productos para llegar a más clientes potenciales.",
@@ -77,8 +78,8 @@ export const PlansPage = () => {
           </h2>
           <Carousel className="w-full mt-12">
             <CarouselContent>
-            {planesData?.map((plan,index) => (
-                <CarouselItem key={index} className="md:basis-1/2">
+            {planesData?.map((plan,_index) => (
+                <CarouselItem key={`ci-${hash(plan.nombre)}`} className="md:basis-1/2">
                   <div className="p-4 flex justify-center h-full">
                     
                       <PlanCard key={plan.id} planCard={plan}/>

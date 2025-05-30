@@ -28,7 +28,7 @@ export const AccordionShoppingCart = () => {
   return (
     <Accordion type="single" collapsible className="max-w-2xl">
       {Object.entries(groupedProducts).map(([seller, sellerProducts], index) => (
-        <AccordionItem key={index} value={`item-${index}`}>
+        <AccordionItem key={seller} value={`item-${index}`}>
           <AccordionTrigger className="font-sans">
             <span className="text-[#555555]">Vendido por:</span>
             <span className="font-semibold"> {seller} </span>
