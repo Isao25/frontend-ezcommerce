@@ -32,7 +32,6 @@ export const ModalDeleteProduct: React.FC<ModalDeleteProductProps> = ({
 
     try {
       await deleteArticulo(productId); // Realizar la eliminación en el backend
-      console.log(`Producto con ID ${productId} eliminado exitosamente.`);
       setLoading(false);
       onDeleteSuccess(); // Notificar al padre que el producto fue eliminado
     } catch (err: any) {

@@ -1,5 +1,13 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { toast } from "sonner"; // Importar el sistema de notificaciones
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
+  ReactNode
+} from "react";
+import { toast } from "sonner";
 
 interface FavouritesContextProps {
   favourites: number[];
@@ -26,7 +34,8 @@ export const FavouritesProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem("favourites", JSON.stringify(favourites));
   }, [favourites]);
 
-  const toggleFavourite = (productId: number) => {
+  // Memoiza la función toggleFavourite para evitar recrearla en cada render
+  const toggleFavourite = useCallback((productId: number) => {
     setFavourites((prevFavourites) => {
       const isFavourite = prevFavourites.includes(productId);
 
@@ -38,10 +47,19 @@ export const FavouritesProvider = ({ children }: { children: ReactNode }) => {
         return [...prevFavourites, productId];
       }
     });
-  };
+  }, []); // Array vacío porque no depende de ninguna variable externa
+
+  // Memoiza el objeto del contexto para evitar re-renders innecesarios
+  const contextValue = useMemo(
+    () => ({
+      favourites,
+      toggleFavourite,
+    }),
+    [favourites, toggleFavourite]
+  );
 
   return (
-    <FavouritesContext.Provider value={{ favourites, toggleFavourite }}>
+    <FavouritesContext.Provider value={contextValue}>
       {children}
     </FavouritesContext.Provider>
   );

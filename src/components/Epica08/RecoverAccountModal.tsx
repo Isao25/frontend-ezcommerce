@@ -66,8 +66,7 @@ export const RecoverAccountModal = () => {
 
     async function onSubmit1(values: FormFields) {
         try {
-            const { email } = values;
-            console.log(email)
+
             setShow1(false);
             setShow2(true);
         }
@@ -85,17 +84,16 @@ export const RecoverAccountModal = () => {
         },
     });
 
-    async function onSubmit2(values: FormFields2) {
+    async function onSubmit2() {
         try {
-            const { code } = values;
-            console.log(code)
+            // const { code } = values;
             setShow2(false);
             setShow3(true);
         }
         catch (error) {
-            console.error(`Exception while submiting: ${error}`)
-            toast.error("Código no válido");
-        }
+            setTimeout(() => {
+                toast.error("Código no válido");
+            }, 20);        }
 
     }
 
@@ -108,17 +106,14 @@ export const RecoverAccountModal = () => {
         },
     });
 
-    async function onSubmit3(values: FormFields3) {
+    async function onSubmit3() {
         try {
-            const { email, newPassword } = values;
-            console.log(email)
-            console.log(newPassword)
+
             toast.success("Contraseña restablecida exitosamente");
             closePopover();
 
         } catch (error) {
-            console.error(`Exception while submiting: ${error}`)
-            toast.error("No se pudo restablecer la contraseña.");
+            console.log(error)
         }
     }
 

@@ -23,14 +23,11 @@ import { getAllImages } from '@/api/apiImages';
 export const MainPage = () => {
   const navigate = useNavigate();
   const { authState, setLoginModal } = useAuth();
-  const { marca, membresia, plan } = useTrademark();
   const [products, setProducts] = useState<Articulo[]>([])
   const [_escuelas, setEscuelas] = useState<EscuelaProfesional[]>([])
   const [sellers, setSellers] = useState<Usuario[]>([])
 
-  console.log("User id:", authState.userId);
-  console.log({ marca: marca, membresia: membresia, plan: plan });
-
+  
   function handleTrademarkClick() {
     if (authState.userId) {
       navigate('/plans')

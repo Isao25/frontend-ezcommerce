@@ -60,7 +60,6 @@ export const HelpAndSupport = () => {
     })
 
     async function onSubmit(values: FormFields) {
-        console.log(values)
         // Here you would typically send the form data to your backend
         setIsDialogOpen(false)
         setActiveDialog('main')

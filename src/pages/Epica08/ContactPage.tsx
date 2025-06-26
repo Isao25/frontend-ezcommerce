@@ -37,7 +37,6 @@ export const ContactPage = () => {
     });
 
     const onSubmit = (values: FormFields) => {
-        console.log("Formulario enviado con éxito:", values);
     };
 
   return (

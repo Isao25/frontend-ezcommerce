@@ -62,3 +62,33 @@ export const updateProduct = (updatedProduct: Product): boolean => {
   }
   return false;
 }
+
+/* === DOCUMENTACIÓN AUTOMÁTICA AVANZADA ===
+ * Archivo: products.ts
+ * Ruta: 
+ * Tamaño: 1649 bytes
+ * Líneas totales:       64
+ * Líneas no vacías: 61
+ * Caracteres:     1649
+ * Última actualización: 26/06/2025 05:58:49
+ * 
+ * 📤 EXPORTS:
+ *   - export const getProductById = (id: number): Product | undefined => {
+ *   - export const products: Product[] = [
+ *   - export const updateProduct = (updatedProduct: Product): boolean => {
+ *   - export interface Product {
+ * 
+ * 📋 INTERFACES:
+ *   - export interface Product {
+ * 
+ * 🔀 MIDDLEWARES:
+ *   - Express middleware functions: 0
+ * 
+ * 📊 ANÁLISIS DE DEPENDENCIAS:
+ * 
+ * 📈 MÉTRICAS DE COMPLEJIDAD:
+ *   - Puntuación de complejidad: 5
+ *   - Ratio código/comentarios: 15.25
+ * 
+ * 🤖 Generado automáticamente por TypeScript Advanced Documenter
+ */

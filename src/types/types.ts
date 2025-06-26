@@ -57,3 +57,46 @@ export type AuthState ={
 export type APIResponse ={
   results: EscuelaProfesional[];               
 }
+
+/* === DOCUMENTACIÓN AUTOMÁTICA AVANZADA ===
+ * Archivo: types.ts
+ * Ruta: 
+ * Tamaño: 1028 bytes
+ * Líneas totales:       59
+ * Líneas no vacías: 56
+ * Caracteres:     1028
+ * Última actualización: 26/06/2025 05:58:49
+ * 
+ * 📤 EXPORTS:
+ *   - export type APIResponse ={
+ *   - export type AuthState ={
+ *   - export type DecodedToken ={
+ *   - export type EscuelaProfesional={
+ *   - export type Marca={
+ *   - export type Membresia={
+ *   - export type Plan={
+ *   - export type Tokens ={
+ *   - export type Usuario={
+ * 
+ * 🔖 TIPOS:
+ *   - export type APIResponse ={
+ *   - export type AuthState ={
+ *   - export type DecodedToken ={
+ *   - export type EscuelaProfesional={
+ *   - export type Marca={
+ *   - export type Membresia={
+ *   - export type Plan={
+ *   - export type Tokens ={
+ *   - export type Usuario={
+ * 
+ * 🔀 MIDDLEWARES:
+ *   - Express middleware functions: 0
+ * 
+ * 📊 ANÁLISIS DE DEPENDENCIAS:
+ * 
+ * 📈 MÉTRICAS DE COMPLEJIDAD:
+ *   - Puntuación de complejidad: 0
+ *   - Ratio código/comentarios: 56.00
+ * 
+ * 🤖 Generado automáticamente por TypeScript Advanced Documenter
+ */

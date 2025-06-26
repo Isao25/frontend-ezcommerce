@@ -1,6 +1,6 @@
-projectKey=front-ezcommerce
-serverUrl=http://localhost:9000
-serverVersion=25.5.0.107428
-dashboardUrl=http://localhost:9000/dashboard?id=front-ezcommerce
-ceTaskId=5a0824f8-1c52-4247-9e3d-9dd12369cc0b
-ceTaskUrl=http://localhost:9000/api/ce/task?id=5a0824f8-1c52-4247-9e3d-9dd12369cc0b
+projectKey=EZ-commerce
+serverUrl=http://localhost:9005
+serverVersion=25.6.0.109173
+dashboardUrl=http://localhost:9005/dashboard?id=EZ-commerce
+ceTaskId=a7a9a4be-5a51-48bf-b46f-6ec99770d54e
+ceTaskUrl=http://localhost:9005/api/ce/task?id=a7a9a4be-5a51-48bf-b46f-6ec99770d54e

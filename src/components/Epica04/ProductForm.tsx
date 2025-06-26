@@ -34,7 +34,7 @@ export const ProductForm = ({ product, initialImages }: { product?: Articulo; in
 
   const onCancel = () => {
     form.reset();
-    setImages([]);  
+    setImages([]);
     navigate("/my-published-products");
   };
   const handleSubmitWrapper = form.handleSubmit(onSubmit);
@@ -62,11 +62,9 @@ export const ProductForm = ({ product, initialImages }: { product?: Articulo; in
 
       {/* Formulario de producto */}
       <Form {...form}>
-        <form  onSubmit={(e) => {
-        console.log("Formulario enviado");
-        console.log("Errores del formulario:", form.formState.errors);
-        handleSubmitWrapper(e);
-      }} className="space-y-6">
+        <form onSubmit={(e) => {
+          handleSubmitWrapper(e);
+        }} className="space-y-6">
           <FormField
             control={form.control}
             name="nombre"
@@ -146,11 +144,10 @@ export const ProductForm = ({ product, initialImages }: { product?: Articulo; in
                               <Checkbox
                                 checked={field.value?.includes(item.id)} // Verifica si el ID está en la lista
                                 onCheckedChange={(checked) => {
+                                  const currentValues = field.value;
                                   const newValue = checked
-                                    ? [...field.value, item.id] // Agrega la etiqueta seleccionada
-                                    : field.value.filter(
-                                        (value) => value !== item.id
-                                      ); // Remueve la etiqueta
+                                    ? currentValues.concat(item.id)
+                                    : currentValues.filter(value => value !== item.id);
                                   field.onChange(newValue);
                                 }}
                               />

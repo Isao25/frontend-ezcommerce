@@ -61,7 +61,6 @@ export function ProductDetailsPage() {
     try {
       const response = await LoadImageMajor(Number(productId));
       setImages(response.map((img: Image) => img.url));
-      //console.log("Imagenes: ", response);
     } catch (error) {
       console.error(error);
       setImages([]);
@@ -78,8 +77,7 @@ export function ProductDetailsPage() {
         const responseProductos = await getArticulos();
         setProductos(responseProductos.data.results);
 
-        console.log(response.data);
-        console.log(responseProductos.data);
+
       } catch (error) {
         console.error(error);
       } finally {

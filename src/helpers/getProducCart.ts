@@ -57,3 +57,47 @@ export const getProductCart = async (id: number): Promise<ProductCart> => {
     throw error;
   }
 };
+/* === DOCUMENTACIÓN AUTOMÁTICA AVANZADA ===
+ * Archivo: getProducCart.ts
+ * Ruta: 
+ * Tamaño: 1749 bytes
+ * Líneas totales:       58
+ * Líneas no vacías: 52
+ * Caracteres:     1749
+ * Última actualización: 26/06/2025 05:58:49
+ * 
+ * 📦 IMPORTS:
+ *   - { LoadImageMajor } from "./getImageMajor";
+ *   - { getArticulo } from "../api/apiArticulos";
+ *   - { getCatalogoById } from "../api/apiCatalogos";
+ *   - { getUsuarios } from "../api/apiUsuarios";
+ * 
+ * 📤 EXPORTS:
+ *   - export const getProductCart = async (id: number): Promise<ProductCart> => {
+ *   - export interface ProductCart {
+ * 
+ * 📋 INTERFACES:
+ *   - export interface ProductCart {
+ * 
+ * ⚡ FUNCIONES:
+ *   - export const getProductCart = async (id: number): Promise<ProductCart> => {()
+ * 
+ * ⚛️  COMPONENTES REACT:
+ *   - ProductCart
+ * 
+ * 🔀 MIDDLEWARES:
+ *   - Express middleware functions: 0
+ * 
+ * ⚠️  MANEJO DE ERRORES:
+ *   - Try-catch blocks: 3
+ *   - Error throws: 1
+ *   - Error instances: 1
+ * 
+ * 📊 ANÁLISIS DE DEPENDENCIAS:
+ * 
+ * 📈 MÉTRICAS DE COMPLEJIDAD:
+ *   - Puntuación de complejidad: 3
+ *   - Ratio código/comentarios: 52.00
+ * 
+ * 🤖 Generado automáticamente por TypeScript Advanced Documenter
+ */

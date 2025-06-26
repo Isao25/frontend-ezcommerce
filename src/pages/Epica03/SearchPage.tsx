@@ -10,6 +10,7 @@ import { ProductCard } from '../../components/cards/product-card';
 import { Articulo } from '../../api/apiArticulos';
 import { Facultad, getAllFacultades } from '../../api/apiFacultades';
 import { getAllImages } from '@/api/apiImages';
+import { baseURLCentralized } from '@/utils/constants';
 
 
 export const SearchPage = () => {
@@ -52,7 +53,7 @@ export const SearchPage = () => {
   };
   const [filters, setFilters] = useState(defaultFilters);
 
-  const apiUrl = "http://localhost:8000/articulos";
+  const apiUrl = `${baseURLCentralized}/articulos`;
 
   // Construcción de la URL de la API
   const constructApiUrl = () => {

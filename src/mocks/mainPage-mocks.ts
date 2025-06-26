@@ -1,5 +1,5 @@
 import { ISellersCardProps } from "../components/cards/sellers-card";
-import TestProduct from '/image-card.jpg'
+import TestProduct from '../../public/image-card.jpg'
 import BannerPrueba from '../assets/banner_prueba.webp'
 import { IProductCardProps } from "../components/cards/product-card";
 import estudio from '../assets/estudio.jpg'
@@ -158,3 +158,39 @@ export const images = [
         alt:'Imagen prueba banner'
     }
 ]
+/* === DOCUMENTACIÓN AUTOMÁTICA AVANZADA ===
+ * Archivo: mainPage-mocks.ts
+ * Ruta: 
+ * Tamaño: 3464 bytes
+ * Líneas totales:      159
+ * Líneas no vacías: 156
+ * Caracteres:     3464
+ * Última actualización: 26/06/2025 05:58:49
+ * 
+ * 📦 IMPORTS:
+ *   - BannerPrueba from '../assets/banner_prueba.webp'
+ *   - TestProduct from '../../public/image-card.jpg'
+ *   - accesorios from '../assets/accesorios.avif'
+ *   - electronica from '../assets/electronica.jpg'
+ *   - estudio from '../assets/estudio.jpg'
+ *   - materiales from '../assets/materiales.jpg'
+ *   - { IProductCardProps } from "../components/cards/product-card";
+ *   - { ISellersCardProps } from "../components/cards/sellers-card";
+ * 
+ * 📤 EXPORTS:
+ *   - export const categories = [
+ *   - export const distinguishedSellers: ISellersCardProps[] = [
+ *   - export const images = [
+ *   - export const mockProducts: IProductCardProps[] = [
+ * 
+ * 🔀 MIDDLEWARES:
+ *   - Express middleware functions: 0
+ * 
+ * 📊 ANÁLISIS DE DEPENDENCIAS:
+ * 
+ * 📈 MÉTRICAS DE COMPLEJIDAD:
+ *   - Puntuación de complejidad: 10
+ *   - Ratio código/comentarios: 156.00
+ * 
+ * 🤖 Generado automáticamente por TypeScript Advanced Documenter
+ */

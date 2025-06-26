@@ -76,7 +76,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return [...prevItems, { ...productCart, quantity }];
       });
     } catch (error) {
-      toast.error("Error al agregar producto al carrito.");
+      console.error("Error al agregar producto al carrito.");
     }
   };
 

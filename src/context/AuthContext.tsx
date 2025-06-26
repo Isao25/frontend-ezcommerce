@@ -50,7 +50,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           userId: decodedToken.user_id,
           accessToken: newTokens.access,
         });
-        console.log("Access token refreshed :)");
         return newTokens;
       } catch (error) {
         console.error("Error refreshing access token:", error);
@@ -58,7 +57,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         return null;
       }
     } else {
-      console.log("No refresh token set to refresh");
       return null;
     }
   };

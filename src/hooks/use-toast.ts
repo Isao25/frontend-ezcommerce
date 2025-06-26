@@ -192,3 +192,66 @@ function useToast() {
 }
 
 export { useToast, toast }
+
+/* === DOCUMENTACIÓN AUTOMÁTICA AVANZADA ===
+ * Archivo: use-toast.ts
+ * Ruta: 
+ * Tamaño: 3948 bytes
+ * Líneas totales:      194
+ * Líneas no vacías: 163
+ * Caracteres:     3948
+ * Última actualización: 26/06/2025 05:58:49
+ * 
+ * 📦 IMPORTS:
+ *   - * as React from "react"
+ * 
+ * 📤 EXPORTS:
+ *   - export const reducer = (state: State, action: Action): State => {
+ *   - export { useToast, toast }
+ * 
+ * 📋 INTERFACES:
+ *   - interface State {
+ * 
+ * 🔖 TIPOS:
+ *   - type Action =
+ *   - type ActionType = typeof actionTypes
+ *   - type Toast = Omit<ToasterToast, "id">
+ *   - type ToasterToast = ToastProps & {
+ * 
+ * ⚡ FUNCIONES:
+ *   -   const dismiss = () => dispatch({ type: "DISMISS_TOAST", toastId: id })()
+ *   -   const update = (props: ToasterToast) =>()
+ *   - const addToRemoveQueue = (toastId: string) => {()
+ *   - function dispatch(action: Action) {()
+ *   - function genId() {()
+ *   - function toast({ ...props }: Toast) {()
+ *   - function useToast() {()
+ * 
+ * 🔒 CONSTANTES:
+ *   - const TOAST_LIMIT = 1
+ *   - const TOAST_REMOVE_DELAY = 1000000
+ * 
+ * 🌐 ENDPOINTS/APIs:
+ *   -     toastTimeouts.delete(toastId)
+ * 
+ * 🎣 REACT HOOKS:
+ *   - function useToast() {
+ *   - useEffect
+ *   - useToast
+ * 
+ * ⚛️  COMPONENTES REACT:
+ *   - State
+ *   - ToasterToast
+ * 
+ * 🔀 MIDDLEWARES:
+ *   - Express middleware functions: 0
+ * 
+ * 📊 ANÁLISIS DE DEPENDENCIAS:
+ *   - React detectado
+ * 
+ * 📈 MÉTRICAS DE COMPLEJIDAD:
+ *   - Puntuación de complejidad: 28
+ *   - Ratio código/comentarios: 54.33
+ * 
+ * 🤖 Generado automáticamente por TypeScript Advanced Documenter
+ */

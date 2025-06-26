@@ -143,7 +143,6 @@ export const RegisterPage = () => {
         const url = await getFileURL(selectedFile as File, "codigoqr_images");
         updatedValues = { ...values, codigoqr: url };
       } catch (error) {
-        console.log("Error al obtener el URL del archivo:", error);
         return;
       }
     } else {
@@ -157,10 +156,8 @@ export const RegisterPage = () => {
       await createUsuario(updatedValues);
       toast.success("Su cuenta fue registrada con éxito");
     } catch (error) {
-      console.log(error);
       toast.error("Se produjo un error al crear su cuenta");
     }
-    console.log("Datos del formulario:", updatedValues);
   }
 
   return (
@@ -268,7 +265,7 @@ export const RegisterPage = () => {
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                              {escuelasData.map(
+                              {escuelasData?.map(
                                 (escuela: EscuelaProfesional) => (
                                   <SelectItem
                                     key={escuela.id}
