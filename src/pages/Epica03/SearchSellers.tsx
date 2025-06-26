@@ -9,6 +9,7 @@ import axios from 'axios'
 import { Facultad, getAllFacultades } from '../../api/apiFacultades';
 import { SellersCard } from '../../components/cards';
 import { Usuario } from '../../types';
+import { baseURLCentralized } from '@/utils/constants';
 
 
 
@@ -58,7 +59,7 @@ export const SearchSellers = () => {
   };
   const [filters, setFilters] = useState(defaultFilters);
 
-  const apiUrl = "http://localhost:8000/usuarios/?es_vendedor=true";
+  const apiUrl = `${baseURLCentralized}/usuarios/?es_vendedor=true`;
 
   // Cambiar página
   const handlePageChange = (page: number) => {

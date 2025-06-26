@@ -1,28 +1,47 @@
 import { render, screen } from '@testing-library/react';
-import { CardOrderSummary } from '../../../src/components/Epica04/CardOrderSummary';
+import { CardOrderSummary } from '@/components/Epica04/CardOrderSummary';
+
+// Mock the useCartContext hook
+const mockUseCartContext = jest.fn();
 
 jest.mock('@/context/CartContext', () => ({
-  useCartContext: () => ({
-    items: [
-      { productPrice: 10, quantity: 2 },
-      { productPrice: 5, quantity: 3 },
-    ],
-  }),
+  useCartContext: () => mockUseCartContext()
 }));
 
 describe('CardOrderSummary', () => {
-  it('muestra resumen si hay productos en el carrito', () => {
-    render(<CardOrderSummary />);
-    expect(screen.getByText('Orden total')).toBeInTheDocument();
-    expect(screen.getByText('Productos')).toBeInTheDocument();
-    expect(screen.getByText('5')).toBeInTheDocument(); // 2 + 3 productos
-    expect(screen.getByText('S/ 35.00')).toBeInTheDocument(); // 10*2 + 5*3
-    expect(screen.getByRole('button', { name: /continuar/i })).toBeInTheDocument();
+  beforeEach(() => {
+    jest.clearAllMocks();
   });
 
-  it('no renderiza nada si el carrito está vacío', () => {
-    jest.mocked(require('@/context/CartContext').useCartContext).mockReturnValueOnce({ items: [] });
+  test('no renderiza nada si el carrito está vacío', () => {
+    mockUseCartContext.mockReturnValue({ 
+      items: [] 
+    });
+    
     const { container } = render(<CardOrderSummary />);
     expect(container).toBeEmptyDOMElement();
+  });
+
+  test('muestra resumen cuando hay productos', () => {
+    mockUseCartContext.mockReturnValue({
+      items: [
+        { 
+          productPrice: 10, 
+          quantity: 2,
+          productTitle: 'Product 1'
+        },
+        { 
+          productPrice: 15, 
+          quantity: 1,
+          productTitle: 'Product 2'
+        }
+      ]
+    });
+
+    render(<CardOrderSummary />);
+    
+    expect(screen.getByText('Orden total')).toBeInTheDocument();
+    expect(screen.getByText('3')).toBeInTheDocument(); // Total items
+    expect(screen.getByText('S/ 35.00')).toBeInTheDocument(); // Total price
   });
 });

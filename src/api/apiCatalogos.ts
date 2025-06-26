@@ -1,6 +1,7 @@
+import { baseURLCentralized } from '@/utils/constants';
 import axios from 'axios';
-export const baseURL='http://localhost:8000/catalogos';
 
+export const baseURL = `${baseURLCentralized}/catalogos`;
 
 const catalogosApi = axios.create({
     baseURL: `${baseURL}` 

@@ -1,7 +1,8 @@
 import { logout, refreshAccessToken } from "@/context/AuthContext";
 import { Tokens } from "@/types";
+import { baseURLCentralized } from "@/utils/constants";
 import axios, { AxiosInstance} from "axios";
-export const baseURL = "http://localhost:8000";
+export const baseURL = baseURLCentralized;
 
 export class AxiosService {
   instance: AxiosInstance;
@@ -24,7 +25,6 @@ export class AxiosProtectedService extends AxiosService {
       const tokens: Tokens | null = JSON.parse(localStorage.getItem("tokens") ?? "null");
       if (tokens?.access) {
         config.headers.Authorization = `Bearer ${tokens.access}`;
-        console.log("request with auth header :)");
       }
       return config;
     });

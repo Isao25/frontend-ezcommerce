@@ -1,5 +1,8 @@
+import { baseURLCentralized } from '@/utils/constants';
 import axios from 'axios';
-export const baseURL='http://localhost:8000/etiquetas';
+
+export const baseURL = `${baseURLCentralized}/etiquetas`;
+
 
 export interface Etiqueta{
     id:number,

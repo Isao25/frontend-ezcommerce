@@ -23,3 +23,13 @@ dist-ssr
 *.sln
 *.sw?
 .env
+
+
+#coverage
+coverage
+coverage/*
+./coverage/*
+./src_content.json
+./extract_src_content.sh
+./scannerwork
+scannerwork

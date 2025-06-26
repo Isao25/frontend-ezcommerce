@@ -23,7 +23,6 @@ import { PlanSection } from "./PlanSection";
 export function ProfileBuyerPage() {
   const navigate = useNavigate();
   const deleteAccount = async () => {
-    console.log("Cuenta eliminada");
     navigate("/login");
   };
 

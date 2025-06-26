@@ -65,7 +65,7 @@ export const SheetComponent = () => {
           <p className="text-red-500">{error}</p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-            {etiquetas.length > 0 ? (
+            {etiquetas?.length > 0 ? (
               etiquetas.map((etiqueta) => (
                 <Button
                   key={etiqueta.id}

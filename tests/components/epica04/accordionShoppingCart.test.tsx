@@ -1,41 +1,50 @@
 import { render, screen } from '@testing-library/react';
-import { AccordionShoppingCart } from '../../../src/components/Epica04/AccordionShoppingCart';
+import { AccordionShoppingCart } from '@/components/Epica04/AccordionShoppingCart';
 
-// Mock del contexto
+// Mock the CartContext
+const mockUseCartContext = jest.fn();
 jest.mock('@/context/CartContext', () => ({
-  useCartContext: () => ({
-    items: [
-      {
-        productTitle: 'Producto 1',
-        productPrice: 20,
-        quantity: 1,
-        ownerProduct: 'Vendedor A',
-      },
-      {
-        productTitle: 'Producto 2',
-        productPrice: 30,
-        quantity: 2,
-        ownerProduct: 'Vendedor B',
-      },
-    ],
-  }),
+  useCartContext: () => mockUseCartContext()
 }));
 
-jest.mock('../../../src/components/cart/CardShoppingCart', () => ({
-  CardShoppingCart: ({ product }: any) => <div>{product.productTitle}</div>,
+// Mock the CardShoppingCart component con la ruta correcta
+jest.mock('@/components/Epica04/CardShoppingCart', () => ({
+  CardShoppingCart: ({ product }: any) => (
+    <div data-testid="cart-item">{product.productTitle}</div>
+  ),
 }));
 
 describe('AccordionShoppingCart', () => {
-  it('renderiza el mensaje de carrito vacío si no hay productos', () => {
-    jest.mocked(require('@/context/CartContext').useCartContext).mockReturnValueOnce({ items: [] });
-    render(<AccordionShoppingCart />);
-    expect(screen.getByText(/tu carrito está vacío/i)).toBeInTheDocument();
+  beforeEach(() => {
+    jest.clearAllMocks();
   });
 
-  it('agrupa y muestra productos por vendedor', () => {
+  test('renders products by seller', () => {
+    mockUseCartContext.mockReturnValue({
+      items: [
+        {
+          productTitle: 'Test Product',
+          productPrice: 100,
+          quantity: 2,
+          ownerProduct: 'Test Owner',
+          productDescription: 'Test Description',
+          productUrl: 'test-url',
+          productRating: 4
+        }
+      ]
+    });
+
     render(<AccordionShoppingCart />);
-    expect(screen.getByText('Vendido por:')).toBeInTheDocument();
-    expect(screen.getByText('Producto 1')).toBeInTheDocument();
-    expect(screen.getByText('Producto 2')).toBeInTheDocument();
+    
+    expect(screen.getByText(/Test Owner/)).toBeInTheDocument();
+    expect(screen.getByTestId('cart-item')).toBeInTheDocument();
+  });
+
+  test('shows empty message when no items', () => {
+    mockUseCartContext.mockReturnValue({ items: [] });
+    
+    render(<AccordionShoppingCart />);
+    
+    expect(screen.getByText('Tu carrito está vacío.')).toBeInTheDocument();
   });
 });

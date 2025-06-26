@@ -1,6 +1,7 @@
+import { baseURLCentralized } from '@/utils/constants';
 import axios from 'axios';
 
-export const baseURL = 'http://localhost:8000/articulos';
+export const baseURL = `${baseURLCentralized}/articulos`;
 
 export interface Articulo {
   id: number;

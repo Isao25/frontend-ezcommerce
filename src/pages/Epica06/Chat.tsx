@@ -104,7 +104,6 @@ export function Chat() {
       receivedId: selectedContact.id,
     };
 
-    console.log("mensaje: ", message);
 
     setMessage((prev) => [...prev, message]);
     setNewMessage("");

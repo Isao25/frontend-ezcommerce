@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/select";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
+import { baseURLCentralized } from "@/utils/constants";
 
 interface Escuelas {
   id: number;
@@ -68,7 +69,7 @@ export function FormEditComp() {
     const fetchEscuelas = async () => {
       try {
         const response = await fetch(
-          "http://localhost:8000/escuelasprofesionales/",
+          `${baseURLCentralized}/escuelasprofesionales/`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -89,7 +90,7 @@ export function FormEditComp() {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8000/usuarios/${userId}/`,
+        `${baseURLCentralized}/usuarios/${userId}/`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -117,10 +118,9 @@ export function FormEditComp() {
   async function onSubmit(values: UserData) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values);
     try {
       const response = await fetch(
-        `http://localhost:8000/usuarios/${userId}/`,
+       `${baseURLCentralized}/usuarios/${userId}/`,
         {
           method: "PATCH",
           headers: {

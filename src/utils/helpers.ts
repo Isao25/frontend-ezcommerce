@@ -21,7 +21,6 @@ export async function deleteFileFromFirebase(fileURL: string) {
   try {
     const fileRef = ref(storage, fileURL);
     await deleteObject(fileRef); // Eliminar archivo
-    console.log("Archivo eliminado correctamente:", fileURL);
   } catch (error) {
     console.error("Error eliminando el archivo:", error);
   }

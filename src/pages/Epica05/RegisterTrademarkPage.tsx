@@ -75,12 +75,9 @@ export const RegisterTrademark = () => {
     
     //Post marca
     try{
-      console.log(updatedValues);
       const response=await marcasService.createMarca(updatedValues);
-      console.log("response",response);
     }
     catch(error){
-      console.log("Posting error",error);
       toast.error("Ocurrió un error al registrar su marca");
       return;
     }

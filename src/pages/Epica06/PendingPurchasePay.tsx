@@ -147,7 +147,6 @@ const cantidadTotalProductos = (orders: Order[]) => {
 
 export function PendingPurchasePay() {
   const [visibleOrders, setVisibleOrders] = useState<Order[]>(datos);
-  //const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
 
   const handleCancel = (orderId: number) => {
@@ -158,25 +157,6 @@ export function PendingPurchasePay() {
 
   const totalMonto = totalDeTodosLosProductos(visibleOrders);
   const totalProductos = cantidadTotalProductos(visibleOrders);
-  /*
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`${baseURL}/consulta`);
-        if (!response.ok) {
-          throw new Error("Error en fetchData");
-        }
-        const data = await response.json();
-
-        setVisibleOrders(data);
-        setError(null);
-      } catch (e) {
-        console.error("Error al hacer la petición: ", e);
-        setError("Problemas al cargar los datos");
-      }
-      fetchData();
-    };
-  }, []);*/
 
   return (
     <div className="my-4 mb-12">

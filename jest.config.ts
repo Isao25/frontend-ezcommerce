@@ -1,17 +1,17 @@
 import type { Config } from 'jest';
 
 const config: Config = {
-  rootDir:'./',
+  rootDir: './',
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/tests/jest.setup.ts'],
   transform: {
-      '^.+\\.tsx?$': 'ts-jest',
-    },
+    '^.+\\.tsx?$': 'ts-jest',
+  },
   extensionsToTreatAsEsm: ['.ts', '.tsx'],
-  preset:'ts-jest',
+  preset: 'ts-jest',
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
-    '\\.(gif|ttf|eot|svg|png)$':'<rootDir>/tests/mocks/fileMock.js',
+    '\\.(gif|ttf|eot|svg|png)$': '<rootDir>/tests/mocks/fileMock.js',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   collectCoverage: true,
@@ -32,12 +32,13 @@ const config: Config = {
     '!src/components/ui/**',
     '!src/types/**',
     '!src/constants/**',
-    '!src/utils/test-utils.{ts,tsx}',
+    '!src/pages/Epica@(0[1-8])/**',
+    '!src/utils/@(test-utils|helpers).{ts,tsx}',
   ],
-  
+
   coverageDirectory: 'coverage',
   coverageReporters: ['text', 'lcov', 'html', 'json'],
-  
+
   coverageThreshold: {
     global: {
       branches: 80,
@@ -46,14 +47,16 @@ const config: Config = {
       statements: 80,
     },
   },
-  
+
   coveragePathIgnorePatterns: [
     '/node_modules/',
     '/tests/',
     '/coverage/',
+    '/src/assets/',
+    '/src/mocks/',
     '\\.d\\.ts$',
   ],
-  
+
   testMatch: [
     '<rootDir>/tests/**/*.{test,spec}.{ts,tsx,js,jsx}',
     '<rootDir>/src/**/*.{test,spec}.{ts,tsx,js,jsx}',

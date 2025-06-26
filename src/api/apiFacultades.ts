@@ -1,5 +1,7 @@
+import { baseURLCentralized } from '@/utils/constants';
 import axios from 'axios';
-export const baseURL='http://localhost:8000/facultades';
+
+export const baseURL = `${baseURLCentralized}/facultades`;
 
 export interface Facultad{
     codigo:number,

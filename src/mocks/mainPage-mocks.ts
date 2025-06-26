@@ -1,5 +1,5 @@
 import { ISellersCardProps } from "../components/cards/sellers-card";
-import TestProduct from '/image-card.jpg'
+import TestProduct from '../../public/image-card.jpg'
 import BannerPrueba from '../assets/banner_prueba.webp'
 import { IProductCardProps } from "../components/cards/product-card";
 import estudio from '../assets/estudio.jpg'

@@ -92,7 +92,6 @@ export const useProductForm = ({
           const url = await getFileURL(image.file, storageDir);
           if (url) {
             await createImage({ id_articulo: productId, url });
-            console.log(`Nueva imagen registrada: ${url}`);
           } else {
             throw new Error("No se pudo obtener la URL de la imagen.");
           }
@@ -104,7 +103,6 @@ export const useProductForm = ({
         // Imagen existente: actualizar en el backend
         try {
           await updateImage(Number(image.id), { id_articulo: productId, url: image.preview });
-          console.log(`Imagen existente actualizada: ${image.preview}`);
         } catch (error) {
           console.error("Error al actualizar imagen existente:", error);
           throw new Error("Error al actualizar imagen existente.");
@@ -112,17 +110,14 @@ export const useProductForm = ({
       }
     }
   };
- console.log("hola")
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log("me active");
     try {
-      console.log("Enviando formulario...");
       const selectedCatalogo = values.is_marca
         ? catalogos.find((catalogo) => catalogo.id_marca !== null)
         : catalogos.find((catalogo) => catalogo.id_marca === null);
 
       if (!selectedCatalogo) throw new Error("No se encontró un catálogo adecuado.");
-
+//@ts-ignore
       const productData: Articulo = {
         ...values,
         id_catalogo: selectedCatalogo.id,

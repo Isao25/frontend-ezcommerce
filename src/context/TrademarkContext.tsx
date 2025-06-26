@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState, useEffect } from "react";
+import { createContext, ReactNode, useState, useEffect, useMemo } from "react";
 import { Marca, Plan, Membresia } from "@/types";
 import {
   membresiasService,
@@ -24,19 +24,19 @@ export const TrademarkProvider = ({ children }: { children: ReactNode }) => {
   const [marca, setMarca] = useState<Marca | null>(null);
   const [membresia, setMembresia] = useState<Membresia | null>(null);
   const [plan, setPlan] = useState<Plan | null>(null);
-
   const [gratisModal, setGratisModal] = useState<boolean>(false);
+  
   const { authState } = useAuth();
 
   useEffect(() => {
     const fetchData = async () => {
-      
-      if (!authState.userId){
+      if (!authState.userId) {
         setMarca(null);
         setMembresia(null);
         setPlan(null);
         return;
       }
+      
       try {
         const marcaResponse = await marcasService.getMarcaByUsuario(authState.userId);
         const fetchedMarca = marcaResponse?.data?.results?.[0] as Marca;
@@ -53,25 +53,33 @@ export const TrademarkProvider = ({ children }: { children: ReactNode }) => {
         if (!fetchedPlan) return;
         setPlan(fetchedPlan);
       } catch (error) {
-        console.log("Fetching error", error);
+       console.error(error)
       }
     };
 
     fetchData();
   }, [authState.userId]);
 
+  // Memoiza el objeto del contexto para evitar re-renders innecesarios
+  const contextValue = useMemo(
+    () => ({
+      marca,
+      setMarca,
+      membresia,
+      plan,
+      gratisModal,
+      setGratisModal,
+    }),
+    [marca, membresia, plan, gratisModal]
+  );
+
   return (
-    <TrademarkContext.Provider
-      value={{
-        marca,
-        setMarca,
-        membresia,
-        plan,
-        gratisModal,
-        setGratisModal,
-      }}
-    >
+    <TrademarkContext.Provider value={contextValue}>
       {children}
     </TrademarkContext.Provider>
   );
 };
+
+
+
+
