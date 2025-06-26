@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent, act } from '@testing-library/react';
-import { FavouritesProvider, useFavouritesContext } from '../../src/context/FavouritesContext';
+import { FavouritesProvider, useFavouritesContext } from '@/context/FavouritesContext';
 import { toast } from 'sonner';
 
 // Mock sonner toast
@@ -37,9 +37,9 @@ const TestComponent = () => {
 
 describe('FavouritesContext', () => {
   beforeEach(() => {
-    // Clear localStorage before each test
-    localStorage.clear();
+    // Reset localStorage mock
     jest.clearAllMocks();
+    (localStorage.getItem as jest.Mock).mockReturnValue(null);
   });
 
   it('initializes with empty favourites when localStorage is empty', () => {
@@ -54,7 +54,8 @@ describe('FavouritesContext', () => {
   });
 
   it('initializes with favourites from localStorage', () => {
-    localStorage.setItem('favourites', JSON.stringify([1, 2, 3]));
+    // Mock localStorage to return saved favourites
+    (localStorage.getItem as jest.Mock).mockReturnValue(JSON.stringify([1, 2, 3]));
 
     render(
       <FavouritesProvider>
@@ -83,7 +84,8 @@ describe('FavouritesContext', () => {
   });
 
   it('removes favourite and shows info toast', () => {
-    localStorage.setItem('favourites', JSON.stringify([1, 2]));
+    // Start with favourites in localStorage
+    (localStorage.getItem as jest.Mock).mockReturnValue(JSON.stringify([1, 2]));
 
     render(
       <FavouritesProvider>
@@ -91,6 +93,7 @@ describe('FavouritesContext', () => {
       </FavouritesProvider>
     );
 
+    // Remove favourite 1
     act(() => {
       fireEvent.click(screen.getByTestId('toggle-favourite-1'));
     });
@@ -118,12 +121,15 @@ describe('FavouritesContext', () => {
   });
 
   it('throws error when used outside provider', () => {
-    const consoleError = jest.spyOn(console, 'error').mockImplementation();
-    
+    // Suppress console.error for this test
+    const originalError = console.error;
+    console.error = jest.fn();
+
     expect(() => {
       render(<TestComponent />);
     }).toThrow('useFavouritesContext debe usarse dentro de FavouritesProvider');
 
-    consoleError.mockRestore();
+    // Restore console.error
+    console.error = originalError;
   });
 });

@@ -2,5 +2,5 @@ projectKey=EZ-commerce
 serverUrl=http://localhost:9005
 serverVersion=25.6.0.109173
 dashboardUrl=http://localhost:9005/dashboard?id=EZ-commerce
-ceTaskId=f54abaeb-b614-403b-b089-cd1eaec922b0
-ceTaskUrl=http://localhost:9005/api/ce/task?id=f54abaeb-b614-403b-b089-cd1eaec922b0
+ceTaskId=a7a9a4be-5a51-48bf-b46f-6ec99770d54e
+ceTaskUrl=http://localhost:9005/api/ce/task?id=a7a9a4be-5a51-48bf-b46f-6ec99770d54e

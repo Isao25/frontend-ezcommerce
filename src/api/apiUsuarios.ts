@@ -34,12 +34,12 @@ export const getUsuarios = (userId:number) => {
 }
 
 //Escuelas
-class EscuelasService extends AxiosService{
+export class EscuelasService extends AxiosService{
   getEscuelas = () => {
     return this.instance.get('/');
   }
 }
-export const escuelasService=new EscuelasService(`${baseURL}/escuelasprofesionales/`);
+export const escuelasService= new EscuelasService(`${baseURL}/escuelasprofesionales/`);
 
 
 

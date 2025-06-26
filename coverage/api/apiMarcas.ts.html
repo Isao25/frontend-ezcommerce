@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/14</span>
+                <span class='fraction'>14/14</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/5</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/14</span>
+                <span class='fraction'>14/14</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -148,37 +148,37 @@
 <a name='L83'></a><a href='#L83'>83</a>
 <a name='L84'></a><a href='#L84'>84</a>
 <a name='L85'></a><a href='#L85'>85</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -232,37 +232,37 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Marca} from "@/types";
-<span class="cstat-no" title="statement not covered" >import {baseURL, AxiosProtectedService, AxiosService } from "./api";</span>
+import {baseURL, AxiosProtectedService, AxiosService } from "./api";
 &nbsp;
 //Marcas
 class MarcasService extends AxiosProtectedService{
-  getMarcaByUsuario = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(i</span>dUsuario: number | null) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    return this.instance.get(`/?id_usuario=${idUsuario}`);</span>
+  getMarcaByUsuario = (idUsuario: number | null) =&gt; {
+    return this.instance.get(`/?id_usuario=${idUsuario}`);
   };
-  createMarca = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(m</span>arca:Marca) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    return this.instance.post("/",marca);</span>
+  createMarca = (marca:Marca) =&gt; {
+    return this.instance.post("/",marca);
   };
 }
-export const <span class="cstat-no" title="statement not covered" >marcasService=new MarcasService(`${baseURL}/marcas/`);</span>
+export const marcasService=new MarcasService(`${baseURL}/marcas/`);
 &nbsp;
 //Membresias
 class MembresiasService extends AxiosService{
-  getMembresiaByMarca = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(i</span>dMarca: number) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    return this.instance.get(`/?id_marca=${idMarca}`);</span>
+  getMembresiaByMarca = (idMarca: number) =&gt; {
+    return this.instance.get(`/?id_marca=${idMarca}`);
   };
 }
-export const <span class="cstat-no" title="statement not covered" >membresiasService=new MembresiasService(`${baseURL}/membresias/`);</span>
+export const membresiasService=new MembresiasService(`${baseURL}/membresias/`);
 &nbsp;
 //Planes
 class PlanesService extends AxiosService{
-  getPlan = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >async </span>(planId: number) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    return await this.instance.get(`${planId}`);</span>
+  getPlan = async (planId: number) =&gt; {
+    return await this.instance.get(`${planId}`);
   };
-  getPlanes = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =</span>&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    return this.instance.get("/");</span>
+  getPlanes = () =&gt; {
+    return this.instance.get("/");
   };
 }
-export const <span class="cstat-no" title="statement not covered" >planesService=new PlanesService(`${baseURL}/planes/`);</span>
+export const planesService=new PlanesService(`${baseURL}/planes/`);
 &nbsp;
 &nbsp;
 &nbsp;
@@ -322,7 +322,7 @@ export const <span class="cstat-no" title="statement not covered" >planesService
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-06-26T11:03:31.239Z
+                at 2025-06-26T13:30:45.900Z
             </div>
         <script src="../prettify.js"></script>
         <script>

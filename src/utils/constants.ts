@@ -1,4 +1,4 @@
-export const baseURLCentralized = import.meta.env.VITE_BASE_URL || 'http://localhost:8000';
+export const baseURLCentralized = import.meta.env.VITE_BASE_URL ?? 'http://localhost:8000';
 /* === DOCUMENTACIÓN AUTOMÁTICA AVANZADA ===
  * Archivo: constants.ts
  * Ruta: 

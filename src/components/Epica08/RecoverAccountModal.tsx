@@ -91,9 +91,9 @@ export const RecoverAccountModal = () => {
             setShow3(true);
         }
         catch (error) {
-            console.error(`Exception while submiting: ${error}`)
-            toast.error("Código no válido");
-        }
+            setTimeout(() => {
+                toast.error("Código no válido");
+            }, 20);        }
 
     }
 

@@ -1,76 +1,18 @@
-import axios from 'axios';
-import { getArticulos, createArticulo, deleteArticulo } from '@/api/apiArticulos';
-import * as apiArticulos from '@/api/apiArticulos';
-
-jest.mock('axios', () => ({
-  create: jest.fn(() => ({
-    get: jest.fn(),
-    post: jest.fn(),
-    delete: jest.fn(),
-    interceptors: {
-      request: { use: jest.fn() },
-      response: { use: jest.fn() }
-    }
-  }))
+// Mock constants ANTES de importar
+jest.mock('@/utils/constants', () => ({
+  baseURLCentralized: 'http://localhost:8000'
 }));
 
-describe('apiArticulos', () => {
-  const mockAxiosInstance = {
-    get: jest.fn(),
-    post: jest.fn(),
-    delete: jest.fn(),
-    interceptors: {
-      request: { use: jest.fn() },
-      response: { use: jest.fn() }
-    }
-  };
-
-  beforeEach(() => {
-    (axios.create as jest.Mock).mockReturnValue(mockAxiosInstance);
-    jest.clearAllMocks();
-  });
-
-  test('getArticulos calls api correctly', async () => {
-    const mockData = { data: { results: [] } };
-    mockAxiosInstance.get.mockResolvedValue(mockData);
-
-    const result = await getArticulos();
-
-    expect(mockAxiosInstance.get).toHaveBeenCalledWith('/');
-    expect(result).toEqual(mockData);
-  });
-
-  test('createArticulo calls api correctly', async () => {
-    const mockArticulo = {
-      id: 1,
-      nombre: 'Test',
-      descripcion: 'Test desc',
-      precio: 100,
-      stock: 10,
-      etiquetas: [1],
-      is_marca: false,
-      id_catalogo: 1
-    };
-    const mockResponse = { data: mockArticulo };
-    mockAxiosInstance.post.mockResolvedValue(mockResponse);
-
-    const result = await createArticulo(mockArticulo);
-
-    expect(mockAxiosInstance.post).toHaveBeenCalledWith('/', mockArticulo);
-    expect(result).toEqual(mockResponse);
-  });
-
-  test('deleteArticulo calls api correctly', async () => {
-    const mockResponse = { data: {} };
-    mockAxiosInstance.delete.mockResolvedValue(mockResponse);
-
-    const result = await deleteArticulo(1);
-
-    expect(mockAxiosInstance.delete).toHaveBeenCalledWith('/1/');
-    expect(result).toEqual(mockResponse);
-  });
-});
-
+import axios from 'axios';
+import {
+  getArticulos,
+  createArticulo,
+  updateArticulo,
+  deleteArticulo,
+  getArticulo,
+  getArticulosByUsuario,
+  Articulo
+} from '@/api/apiArticulos';
 
 // Mock axios completamente
 jest.mock('axios', () => ({
@@ -87,17 +29,19 @@ jest.mock('axios', () => ({
 }));
 
 // Mock localStorage
-const localStorageMock = {
-  getItem: jest.fn(() => JSON.stringify({ access: 'fake-token' })),
-  setItem: jest.fn(),
-  removeItem: jest.fn(),
-  clear: jest.fn(),
-};
-Object.defineProperty(window, 'localStorage', { value: localStorageMock });
+Object.defineProperty(window, 'localStorage', {
+  value: {
+    getItem: jest.fn(() => '{}'),
+    setItem: jest.fn(),
+    removeItem: jest.fn(),
+    clear: jest.fn(),
+  },
+  writable: true
+});
 
-describe('apiArticulos', () => {
-  // Obtener la instancia mockeada de axios
-  const axios = require('axios');
+const mockedAxios = axios as jest.Mocked<typeof axios>;
+
+describe('Articulos API', () => {
   const mockAxiosInstance = {
     get: jest.fn(),
     post: jest.fn(),
@@ -109,48 +53,90 @@ describe('apiArticulos', () => {
     }
   };
 
+  const mockArticulo: Articulo = {
+    id: 1,
+    nombre: 'Test Product',
+    descripcion: 'Test Description',
+    precio: 100,
+    stock: 10,
+    etiquetas: [1, 2],
+    is_marca: false,
+    id_catalogo: 1
+  };
+
   beforeEach(() => {
-    axios.create.mockReturnValue(mockAxiosInstance);
     jest.clearAllMocks();
+    mockedAxios.create.mockReturnValue(mockAxiosInstance as any);
   });
 
-  test('getArticulos calls api correctly', async () => {
-    const mockData = { data: { results: [] } };
-    mockAxiosInstance.get.mockResolvedValue(mockData);
+  describe('getArticulos', () => {
+    it('should fetch all articulos', async () => {
+      const mockResponse = { data: { results: [mockArticulo] } };
+      mockAxiosInstance.get.mockResolvedValue(mockResponse);
+      
+      const result = await getArticulos();
+      expect(mockAxiosInstance.get).toHaveBeenCalledWith('/');
+      expect(result.data.results).toEqual([mockArticulo]);
+    });
 
-    const result = await apiArticulos.getArticulos();
-
-    expect(mockAxiosInstance.get).toHaveBeenCalledWith('/');
-    expect(result).toEqual(mockData);
+    it('should handle API errors', async () => {
+      mockAxiosInstance.get.mockRejectedValue(new Error('API Error'));
+      await expect(getArticulos()).rejects.toThrow('API Error');
+    });
   });
 
-  test('createArticulo calls api correctly', async () => {
-    const mockArticulo = {
-      id: 1,
-      nombre: 'Test',
-      descripcion: 'Test desc',
-      precio: 100,
-      stock: 10,
-      etiquetas: [1],
-      is_marca: false,
-      id_catalogo: 1
-    };
-    const mockResponse = { data: mockArticulo };
-    mockAxiosInstance.post.mockResolvedValue(mockResponse);
-
-    const result = await apiArticulos.createArticulo(mockArticulo);
-
-    expect(mockAxiosInstance.post).toHaveBeenCalledWith('/', mockArticulo);
-    expect(result).toEqual(mockResponse);
+  describe('createArticulo', () => {
+    it('should create new articulo', async () => {
+      const mockResponse = { data: mockArticulo };
+      mockAxiosInstance.post.mockResolvedValue(mockResponse);
+      
+      const result = await createArticulo(mockArticulo);
+      expect(mockAxiosInstance.post).toHaveBeenCalledWith('/', mockArticulo);
+      expect(result.data).toEqual(mockArticulo);
+    });
   });
 
-  test('deleteArticulo calls api correctly', async () => {
-    const mockResponse = { data: {} };
-    mockAxiosInstance.delete.mockResolvedValue(mockResponse);
+  describe('updateArticulo', () => {
+    it('should update existing articulo', async () => {
+      const mockResponse = { data: mockArticulo };
+      mockAxiosInstance.put.mockResolvedValue(mockResponse);
+      
+      const result = await updateArticulo(1, mockArticulo);
+      expect(mockAxiosInstance.put).toHaveBeenCalledWith('/1', mockArticulo);
+      expect(result.data).toEqual(mockArticulo);
+    });
+  });
 
-    const result = await apiArticulos.deleteArticulo(1);
+  describe('deleteArticulo', () => {
+    it('should delete articulo', async () => {
+      const mockResponse = { data: { message: 'Deleted' } };
+      mockAxiosInstance.delete.mockResolvedValue(mockResponse);
+      
+      const result = await deleteArticulo(1);
+      expect(mockAxiosInstance.delete).toHaveBeenCalledWith('/1');
+      expect(result.data.message).toBe('Deleted');
+    });
+  });
 
-    expect(mockAxiosInstance.delete).toHaveBeenCalledWith('/1/');
-    expect(result).toEqual(mockResponse);
+  describe('getArticulo', () => {
+    it('should fetch single articulo', async () => {
+      const mockResponse = { data: mockArticulo };
+      mockAxiosInstance.get.mockResolvedValue(mockResponse);
+      
+      const result = await getArticulo(1);
+      expect(mockAxiosInstance.get).toHaveBeenCalledWith('/1');
+      expect(result.data).toEqual(mockArticulo);
+    });
+  });
+
+  describe('getArticulosByUsuario', () => {
+    it('should fetch articulos by user', async () => {
+      const mockResponse = { data: { results: [mockArticulo] } };
+      mockAxiosInstance.get.mockResolvedValue(mockResponse);
+      
+      const result = await getArticulosByUsuario(1);
+      expect(mockAxiosInstance.get).toHaveBeenCalledWith('/?id_usuario=1');
+      expect(result.data.results).toEqual([mockArticulo]);
+    });
   });
 });

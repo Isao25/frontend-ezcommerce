@@ -4,16 +4,52 @@ const config: Config = {
   rootDir: './',
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/tests/jest.setup.ts'],
-  transform: {
-    '^.+\\.tsx?$': 'ts-jest',
+  
+  // Configuración de globals para ts-jest e import.meta
+  globals: {
+    'ts-jest': {
+      useESM: true,
+      tsconfig: {
+        jsx: 'react-jsx'
+      }
+    },
+    // Mock de import.meta
+    'import.meta': {
+      env: {
+        VITE_BASE_URL: 'http://localhost:8000',
+        VITE_API_KEY: 'test-api-key',
+        VITE_AUTH_DOMAIN: 'test-domain',
+        VITE_PROJECT_ID: 'test-project',
+        VITE_STORAGE_BUCKET: 'test-bucket',
+        VITE_MESSAGING_SENDER_ID: 'test-sender',
+        VITE_APP_ID: 'test-app-id'
+      }
+    }
   },
+  
+  transform: {
+    '^.+\\.tsx?$': ['ts-jest', {
+      useESM: true
+    }],
+  },
+  
   extensionsToTreatAsEsm: ['.ts', '.tsx'],
-  preset: 'ts-jest',
+  preset: 'ts-jest/presets/default-esm',
+  
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
     '\\.(gif|ttf|eot|svg|png)$': '<rootDir>/tests/mocks/fileMock.js',
+    // Agregar mapper para archivos CSS/SCSS
+    '\\.(css|less|scss|sass)$': 'identity-obj-proxy'
   },
+  
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
+  
+  // Transform ignore patterns para node_modules
+  transformIgnorePatterns: [
+    'node_modules/(?!(.*\\.mjs$|@testing-library|@radix-ui|lucide-react))'
+  ],
+  
   collectCoverage: true,
   collectCoverageFrom: [
     'src/**/*.{ts,tsx,js,jsx}',
@@ -33,7 +69,9 @@ const config: Config = {
     '!src/types/**',
     '!src/constants/**',
     '!src/pages/Epica@(0[1-8])/**',
-    '!src/utils/@(test-utils|helpers).{ts,tsx}',
+    '!src/utils/@(test-utils|constants|helpers).{ts,tsx}',
+    'src/components/layouts/Footer.tsx',
+    'src/components/layouts/MenuAccount.tsx'
   ],
 
   coverageDirectory: 'coverage',

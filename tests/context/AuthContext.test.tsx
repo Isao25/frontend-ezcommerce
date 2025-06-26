@@ -1,10 +1,25 @@
+// AuthContext.test.tsx
 import { render, screen, waitFor } from '@testing-library/react';
 import { AuthProvider } from '@/context/AuthContext';
 import { useAuth } from '@/hooks/useAuth';
 import { act } from 'react-dom/test-utils';
 
+// Mock utils/constants
+jest.mock('@/utils/constants', () => ({
+  baseURLCentralized: 'http://localhost:8000'
+}));
+
 // Mock axios
-jest.mock('axios');
+jest.mock('axios', () => ({
+  create: jest.fn(() => ({
+    get: jest.fn(),
+    post: jest.fn(),
+    interceptors: {
+      request: { use: jest.fn() },
+      response: { use: jest.fn() }
+    }
+  }))
+}));
 
 // Mock jwt-decode
 jest.mock('jwt-decode', () => ({
@@ -31,7 +46,6 @@ const TestComponent = () => {
 
 describe('AuthContext', () => {
   beforeEach(() => {
-    localStorage.clear();
     jest.clearAllMocks();
   });
 
@@ -60,3 +74,4 @@ describe('AuthContext', () => {
     expect(screen.getByTestId('user-id')).toHaveTextContent('null');
   });
 });
+
