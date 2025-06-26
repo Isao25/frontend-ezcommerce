@@ -54,3 +54,47 @@ export const useImageUpload = (maxImages = 5) => {
 
   return { images, setImages, handleFileUpload, removeImage, handleDragEnd };
 };
+
+/* === DOCUMENTACIÓN AUTOMÁTICA AVANZADA ===
+ * Archivo: useImageUpload.ts
+ * Ruta: 
+ * Tamaño: 2034 bytes
+ * Líneas totales:       56
+ * Líneas no vacías: 48
+ * Caracteres:     2034
+ * Última actualización: 26/06/2025 05:58:49
+ * 
+ * 📦 IMPORTS:
+ *   - { arrayMove } from "@dnd-kit/sortable";
+ *   - { useCallback, useState } from "react";
+ * 
+ * 📤 EXPORTS:
+ *   - export const useImageUpload = (maxImages = 5) => {
+ *   - export interface UploadedImage {
+ * 
+ * 📋 INTERFACES:
+ *   - export interface UploadedImage {
+ * 
+ * ⚡ FUNCIONES:
+ *   - export const useImageUpload = (maxImages = 5) => {()
+ * 
+ * 🎣 REACT HOOKS:
+ *   - export const useImageUpload = (maxImages = 5) => {
+ *   - useCallback
+ * 
+ * ⚛️  COMPONENTES REACT:
+ *   - HTMLInputElement
+ *   - UploadedImage
+ * 
+ * 🔀 MIDDLEWARES:
+ *   - Express middleware functions: 0
+ * 
+ * 📊 ANÁLISIS DE DEPENDENCIAS:
+ *   - React detectado
+ * 
+ * 📈 MÉTRICAS DE COMPLEJIDAD:
+ *   - Puntuación de complejidad: 15
+ *   - Ratio código/comentarios: 4.80
+ * 
+ * 🤖 Generado automáticamente por TypeScript Advanced Documenter
+ */

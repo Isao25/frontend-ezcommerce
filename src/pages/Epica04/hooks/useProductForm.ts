@@ -142,3 +142,68 @@ export const useProductForm = ({
   };
   return { form, onSubmit, isMarca };
 };
+
+/* === DOCUMENTACIÓN AUTOMÁTICA AVANZADA ===
+ * Archivo: useProductForm.ts
+ * Ruta: 
+ * Tamaño: 4988 bytes
+ * Líneas totales:      144
+ * Líneas no vacías: 132
+ * Caracteres:     4988
+ * Última actualización: 26/06/2025 05:58:49
+ * 
+ * 📦 IMPORTS:
+ *   - * as z from "zod";
+ *   - { LoadCatalogos } from "../../../helpers/LoadCatalogos";
+ *   - { LoadUsuarios } from "../../../helpers/getUser";
+ *   - { UploadedImage } from "./useImageUpload";
+ *   - { createArticulo, Articulo, updateArticulo } from "../../../api/apiArticulos";
+ *   - { createImage, updateImage } from "../../../api/apiImages";
+ *   - { getFileURL } from "../../../utils/helpers";
+ *   - { useAuth } from "@/hooks/useAuth";
+ *   - { useEffect, useState } from "react";
+ *   - { useForm } from "react-hook-form";
+ *   - { useNavigate } from "react-router-dom";
+ *   - { zodResolver } from "@hookform/resolvers/zod";
+ * 
+ * 📤 EXPORTS:
+ *   - export const useProductForm = ({
+ * 
+ * 📋 INTERFACES:
+ *   - interface UseProductFormProps {
+ * 
+ * ⚡ FUNCIONES:
+ *   -   const onSubmit = async (values: z.infer<typeof formSchema>) => {()
+ *   -   const processImages = async (images: UploadedImage[], productId: number) => {()
+ * 
+ * 🎣 REACT HOOKS:
+ *   - export const useProductForm = ({
+ *   - useAuth
+ *   - useEffect
+ *   - useNavigate
+ *   - useState
+ * 
+ * ⚛️  COMPONENTES REACT:
+ *   - Array
+ *   - UploadedImage
+ * 
+ * 🗄️  MODELOS/BD:
+ *   - const formSchema = z.object({
+ * 
+ * 🔀 MIDDLEWARES:
+ *   - Express middleware functions: 0
+ * 
+ * ⚠️  MANEJO DE ERRORES:
+ *   - Try-catch blocks: 3
+ *   - Error throws: 4
+ *   - Error instances: 4
+ * 
+ * 📊 ANÁLISIS DE DEPENDENCIAS:
+ *   - React detectado
+ * 
+ * 📈 MÉTRICAS DE COMPLEJIDAD:
+ *   - Puntuación de complejidad: 27
+ *   - Ratio código/comentarios: 33.00
+ * 
+ * 🤖 Generado automáticamente por TypeScript Advanced Documenter
+ */

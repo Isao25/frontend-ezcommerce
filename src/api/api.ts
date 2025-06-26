@@ -57,3 +57,47 @@ export class AxiosProtectedService extends AxiosService {
     );
   }
 }
+/* === DOCUMENTACIÓN AUTOMÁTICA AVANZADA ===
+ * Archivo: api.ts
+ * Ruta: 
+ * Tamaño: 1785 bytes
+ * Líneas totales:       58
+ * Líneas no vacías: 51
+ * Caracteres:     1785
+ * Última actualización: 26/06/2025 05:58:49
+ * 
+ * 📦 IMPORTS:
+ *   - axios, { AxiosInstance} from "axios";
+ *   - { Tokens } from "@/types";
+ *   - { baseURLCentralized } from "@/utils/constants";
+ *   - { logout, refreshAccessToken } from "@/context/AuthContext";
+ * 
+ * 📤 EXPORTS:
+ *   - export class AxiosProtectedService extends AxiosService {
+ *   - export class AxiosService {
+ *   - export const baseURL = baseURLCentralized;
+ * 
+ * 🏛️  CLASES:
+ *   - export class AxiosProtectedService extends AxiosService {
+ *   - export class AxiosService {
+ * 
+ * 🔀 MIDDLEWARES:
+ *   - Express middleware functions: 0
+ * 
+ * 🔧 SERVICIOS:
+ *   - export class AxiosProtectedService extends AxiosService {
+ *   - export class AxiosService {
+ * 
+ * ⚠️  MANEJO DE ERRORES:
+ *   - Try-catch blocks: 1
+ *   - Error instances: 3
+ * 
+ * 📊 ANÁLISIS DE DEPENDENCIAS:
+ *   - Axios detectado
+ * 
+ * 📈 MÉTRICAS DE COMPLEJIDAD:
+ *   - Puntuación de complejidad: 6
+ *   - Ratio código/comentarios: 51.00
+ * 
+ * 🤖 Generado automáticamente por TypeScript Advanced Documenter
+ */
