@@ -159,6 +159,21 @@ export function FormEditComp() {
   // Función para enviar los datos
   async function onSubmit(values: UserData) {
     try {
+      // Preparar los datos para enviar, excluyendo campos problemáticos
+      const dataToSend = {
+        username: values.username,
+        nombres: values.nombres,
+        apellido_p: values.apellido_p,
+        apellido_m: values.apellido_m,
+        codigo: values.codigo,
+        celular: values.celular,
+        id_escuela: values.id_escuela,
+        email: values.email,
+        // No incluir password ni codigoqr en la actualización
+      };
+
+      console.log("Datos a enviar:", dataToSend);
+
       const response = await fetch(
         `${baseURLCentralized}/usuarios/${userId}/`,
         {
@@ -168,14 +183,18 @@ export function FormEditComp() {
             Accept: "application/json",
             Authorization: `Bearer ${authState.accessToken}`,
           },
-          body: JSON.stringify(values),
+          body: JSON.stringify(dataToSend),
         }
       );
 
       if (!response.ok) {
         const errorData = await response.json();
+        console.error("Error del servidor:", errorData);
         throw new Error(errorData.message ?? "Error al actualizar los datos");
       }
+
+      const responseData = await response.json();
+      console.log("Respuesta del servidor:", responseData);
 
       // Actualizar el estado local con los nuevos datos
       const updatedData = { ...userData, ...values };
@@ -365,14 +384,17 @@ export function FormEditComp() {
               <FormLabel>Código QR</FormLabel>
               <FormControl>
                 <Input
-                  type="file"
-                  placeholder="Código"
-                  disabled={!isEditing}
+                  type="text"
+                  placeholder="Código QR"
+                  disabled={true}
                   {...field}
                   value={field.value ?? ""}
                 />
               </FormControl>
               <FormMessage />
+              <p className="text-xs text-gray-500 mt-1">
+                Este campo no se puede editar desde aquí
+              </p>
             </FormItem>
           )}
         />
