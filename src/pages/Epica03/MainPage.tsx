@@ -16,8 +16,9 @@ import { useTrademark } from '@/hooks/useTrademark';
 import { useEffect, useState } from 'react';
 import { Articulo, getArticulos } from '../../api/apiArticulos';
 import { EscuelaProfesional, Usuario } from '../../types';
-import { escuelasService, usuariosApi } from '../../api/apiUsuarios';
+import { escuelasService, usuariosApi, vendedoresApi } from '../../api/apiUsuarios';
 import { getAllImages } from '@/api/apiImages';
+import axios from 'axios';
 
 
 export const MainPage = () => {
@@ -69,7 +70,7 @@ export const MainPage = () => {
         const escuelasResponse = await escuelasService.getEscuelas();
         setEscuelas(escuelasResponse.data.results);
   
-        const vendedoresResponse = await usuariosApi.get('?es_vendedor=true');
+        const vendedoresResponse = await vendedoresApi.get('/');
         setSellers(vendedoresResponse.data.results);
       } catch (error) {
         console.error("Error al cargar los datos:", error);

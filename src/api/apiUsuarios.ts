@@ -7,6 +7,26 @@ export const usuariosApi = axios.create({
   baseURL: `${baseURL}/usuarios/` 
 });
 
+export const vendedoresApi = axios.create({
+  baseURL: `${baseURL}/vendedores`
+});
+
+vendedoresApi.interceptors.request.use(
+  (config) => {
+    const tokens = JSON.parse(localStorage.getItem("tokens") ?? "{}");
+    const accessToken = tokens?.access ?? null;
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(
+      error instanceof Error ? error : new Error("Request interceptor error")
+    );
+  }
+);
+
 // Interceptor para agregar el token de acceso a las solicitudes
 usuariosApi.interceptors.request.use(
   (config) => {
