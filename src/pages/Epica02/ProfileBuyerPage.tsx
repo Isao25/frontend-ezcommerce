@@ -19,12 +19,25 @@ import {
 import { useNavigate } from "react-router";
 import { GratisModal } from "../../components/Epica5/GratisModal";
 import { PlanSection } from "./PlanSection";
+import { usuariosApi } from "../../api/apiUsuarios";
+import { useAuth } from "../../hooks/useAuth";
 
 export function ProfileBuyerPage() {
+    const { authState } = useAuth();
+    const userId = authState.userId;
   const navigate = useNavigate();
-  const deleteAccount = async () => {
+  
+const deleteAccount = async () => {
+  try {
+    // Primero eliminar la cuenta
+    await usuariosApi.delete(`${userId}`);
+    // Luego navegar al login
     navigate("/login");
-  };
+  } catch (error) {
+    console.error("Error al eliminar la cuenta:", error);
+    // Manejar el error según tu aplicación
+  }
+};
 
   return (
     <>
