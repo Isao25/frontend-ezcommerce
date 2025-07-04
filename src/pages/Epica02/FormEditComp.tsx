@@ -326,7 +326,7 @@ export function FormEditComp() {
               <FormLabel>Código QR (Opcional)</FormLabel>
               <FormControl>
                 <Input
-                  type="url"
+                  type="file"
                   placeholder="https://ejemplo.com/mi-qr-code.jpg"
                   disabled={!isEditing}
                   value={field.value || ""}
