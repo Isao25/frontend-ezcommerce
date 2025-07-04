@@ -54,7 +54,7 @@ export const formSchema = z.object({
     .string({ message: "Contraseña inválida" })
     .min(6, { message: "Contraseña debe tener como mínimo 6 carácteres" })
     .optional(),
-  codigoqr: z.any().optional(),
+  // codigoqr: z.any().optional(),
 });
 
 export type UserData = z.infer<typeof formSchema>;

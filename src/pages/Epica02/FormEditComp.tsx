@@ -61,7 +61,7 @@ export function FormEditComp() {
       id_escuela: 0,
       email: "",
       password: "",
-      codigoqr: "", // Campo opcional como string vacío
+      // codigoqr: "", // Campo opcional como string vacío
     },
   });
 
@@ -119,9 +119,9 @@ export function FormEditComp() {
     const submitData = { ...values };
     
     // Remover el campo codigoqr si está vacío
-    if (!submitData.codigoqr || submitData.codigoqr === "") {
-      delete submitData.codigoqr;
-    }
+    // if (!submitData.codigoqr || submitData.codigoqr === "") {
+    //   delete submitData.codigoqr;
+    // }
     
     // Remover el campo password si está vacío (ya que está deshabilitado)
     if (!submitData.password || submitData.password === "") {
@@ -318,7 +318,7 @@ export function FormEditComp() {
             </FormItem>
           )}
         />
-        <FormField
+        {/* <FormField
           control={form.control}
           name="codigoqr"
           render={({ field }) => (
@@ -339,7 +339,7 @@ export function FormEditComp() {
               </p>
             </FormItem>
           )}
-        />
+        /> */}
         <FormField
           control={form.control}
           name="email"
