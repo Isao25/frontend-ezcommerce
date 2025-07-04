@@ -38,12 +38,20 @@ export function FormEditComp() {
 
   const [isEditing, setIsEditing] = useState(false);
   const [escuelas, setEscuelas] = useState<Escuelas[]>([]);
-  const [userData, setUserData] = useState<UserData | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [userData, setUserData] = useState<UserData>();
+
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
+
+  const handleCancel = () => {
+    form.reset(userData);
+    setIsEditing(false);
+  };
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
+    defaultValues: userData ?? {
       username: "",
       nombres: "",
       apellido_p: "",
@@ -56,51 +64,30 @@ export function FormEditComp() {
     },
   });
 
-  const handleEdit = () => {
-    setIsEditing(true);
-  };
-
-  const handleCancel = () => {
-    if (userData) {
-      form.reset(userData);
-    }
-    setIsEditing(false);
-  };
-
-  // Función para cargar escuelas
-  const fetchEscuelas = async () => {
-    try {
-      const response = await fetch(
-        `${baseURLCentralized}/escuelasprofesionales/`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Authorization: `Bearer ${authState.accessToken}`,
-          },
-        }
-      );
-      
-      if (!response.ok) {
-        throw new Error('Error al cargar escuelas');
+  useEffect(() => {
+    const fetchEscuelas = async () => {
+      try {
+        const response = await fetch(
+          `${baseURLCentralized}/escuelasprofesionales/`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+              Authorization: `Bearer ${authState.accessToken}`,
+            },
+          }
+        );
+        const dataEscuelas = await response.json();
+        setEscuelas(dataEscuelas.results);
+      } catch (error) {
+        console.error(error);
       }
-      
-      const dataEscuelas = await response.json();
-      setEscuelas(dataEscuelas.results);
-    } catch (error) {
-      console.error("Error al cargar escuelas:", error);
-      toast({
-        title: "Error",
-        description: "No se pudieron cargar las escuelas",
-        variant: "destructive",
-      });
-    }
-  };
+    };
+    fetchEscuelas();
+  }, []);
 
-  // Función para cargar datos del usuario
   const fetchData = async () => {
     try {
-      setIsLoading(true);
       const response = await fetch(
         `${baseURLCentralized}/usuarios/${userId}/`,
         {
@@ -111,69 +98,46 @@ export function FormEditComp() {
           },
         }
       );
-
-      if (!response.ok) {
-        throw new Error('Error al cargar datos del usuario');
-      }
-
       const data = await response.json();
+
       setUserData(data);
-      
-      // Resetear el formulario con los datos obtenidos
-      form.reset({
-        username: data.username || "",
-        nombres: data.nombres || "",
-        apellido_p: data.apellido_p || "",
-        apellido_m: data.apellido_m || "",
-        codigo: data.codigo || "",
-        celular: data.celular || "",
-        id_escuela: data.id_escuela || 0,
-        email: data.email || "",
-        password: data.password || "",
-        codigoqr: data.codigoqr || "",
-      });
     } catch (error) {
-      console.error("Error al cargar datos del usuario:", error);
-      toast({
-        title: "Error",
-        description: "No se pudieron cargar los datos del usuario",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
+      console.error(error);
     }
   };
 
-  // Cargar escuelas al montar el componente
   useEffect(() => {
-    fetchEscuelas();
-  }, []);
-
-  // Cargar datos del usuario al montar el componente
-  useEffect(() => {
-    if (userId) {
+    if (!userData) {
       fetchData();
     }
-  }, [userId]);
+    form.reset(userData);
+  }, [userData]);
 
-  // Función para enviar los datos
+  // Función para preparar los datos antes del envío
+  const prepareDataForSubmit = (values: UserData) => {
+    const submitData = { ...values };
+    
+    // Remover el campo codigoqr si está vacío o es undefined
+    if (!submitData.codigoqr || submitData.codigoqr === "") {
+      delete submitData.codigoqr;
+    }
+    
+    // Remover el campo password si está vacío (ya que está deshabilitado)
+    if (!submitData.password || submitData.password === "") {
+      delete submitData.password;
+    }
+    
+    return submitData;
+  };
+
+  // 2. Define a submit handler.
   async function onSubmit(values: UserData) {
     try {
-      // Preparar los datos para enviar, excluyendo campos problemáticos
-      const dataToSend = {
-        username: values.username,
-        nombres: values.nombres,
-        apellido_p: values.apellido_p,
-        apellido_m: values.apellido_m,
-        codigo: values.codigo,
-        celular: values.celular,
-        id_escuela: values.id_escuela,
-        email: values.email,
-        // No incluir password ni codigoqr en la actualización
-      };
-
-      console.log("Datos a enviar:", dataToSend);
-
+      // Preparar los datos eliminando campos problemáticos
+      const dataToSubmit = prepareDataForSubmit(values);
+      
+      console.log("Datos a enviar:", dataToSubmit); // Para debugging
+      
       const response = await fetch(
         `${baseURLCentralized}/usuarios/${userId}/`,
         {
@@ -183,51 +147,33 @@ export function FormEditComp() {
             Accept: "application/json",
             Authorization: `Bearer ${authState.accessToken}`,
           },
-          body: JSON.stringify(dataToSend),
+          body: JSON.stringify(dataToSubmit),
         }
       );
 
       if (!response.ok) {
         const errorData = await response.json();
-        console.error("Error del servidor:", errorData);
-        throw new Error(errorData.message ?? "Error al actualizar los datos");
+        console.error("Error del servidor:", errorData); // Para debugging
+        throw new Error(errorData.message ?? "Error en actualizar los datos");
       }
-
-      const responseData = await response.json();
-      console.log("Respuesta del servidor:", responseData);
-
-      // Actualizar el estado local con los nuevos datos
-      const updatedData = { ...userData, ...values };
-      setUserData(updatedData);
       
-      // Resetear el formulario con los datos actualizados
-      form.reset(updatedData);
-      
-      setIsEditing(false);
+      const updatedData = await response.json();
       
       toast({
         title: "Datos actualizados ✅",
-        description: "Los datos se han actualizado correctamente",
       });
+      
+      // Actualizar el estado local con los datos actualizados
+      setUserData(updatedData);
+      setIsEditing(false);
     } catch (error) {
-      console.error("Error en el envío:", error);
+      console.error("Error en el envio: ", error);
       toast({
-        title: "Error",
-        description: error instanceof Error ? error.message : "Error al actualizar los datos",
+        title: "Error al actualizar",
+        description: "Hubo un problema al actualizar los datos. Intenta nuevamente.",
         variant: "destructive",
       });
     }
-  }
-
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center p-8">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p>Cargando datos...</p>
-        </div>
-      </div>
-    );
   }
 
   return (
@@ -272,7 +218,6 @@ export function FormEditComp() {
             )}
           />
         </div>
-        
         <div className="flex flex-col gap-6 self-stretch sm:gap-12 sm:flex-row">
           <FormField
             control={form.control}
@@ -309,7 +254,6 @@ export function FormEditComp() {
             )}
           />
         </div>
-        
         <div className="flex flex-col gap-6 self-stretch sm:gap-12 sm:flex-row">
           <FormField
             control={form.control}
@@ -346,7 +290,6 @@ export function FormEditComp() {
             )}
           />
         </div>
-        
         <FormField
           control={form.control}
           name="id_escuela"
@@ -355,11 +298,10 @@ export function FormEditComp() {
               <FormLabel>Escuela Profesional</FormLabel>
               <Select
                 onValueChange={(value) => field.onChange(Number(value))}
-                value={field.value?.toString()}
-                disabled={!isEditing}
+                defaultValue={field.value?.toString()}
               >
                 <FormControl>
-                  <SelectTrigger>
+                  <SelectTrigger disabled={!isEditing}>
                     <SelectValue placeholder="Selecciona tu escuela" />
                   </SelectTrigger>
                 </FormControl>
@@ -375,30 +317,30 @@ export function FormEditComp() {
             </FormItem>
           )}
         />
-        
         <FormField
           control={form.control}
           name="codigoqr"
           render={({ field }) => (
             <FormItem className="self-stretch">
-              <FormLabel>Código QR</FormLabel>
+              <FormLabel>Código QR (Opcional)</FormLabel>
               <FormControl>
                 <Input
-                  type="text"
-                  placeholder="Código QR"
-                  disabled={true}
-                  {...field}
-                  value={field.value ?? ""}
+                  type="file"
+                  accept="image/*"
+                  disabled={!isEditing}
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    field.onChange(file);
+                  }}
                 />
               </FormControl>
               <FormMessage />
-              <p className="text-xs text-gray-500 mt-1">
-                Este campo no se puede editar desde aquí
+              <p className="text-sm text-gray-500 mt-1">
+                Sube una imagen de tu código QR (opcional)
               </p>
             </FormItem>
           )}
         />
-        
         <FormField
           control={form.control}
           name="email"
@@ -416,7 +358,6 @@ export function FormEditComp() {
             </FormItem>
           )}
         />
-        
         <FormField
           control={form.control}
           name="password"
@@ -437,7 +378,6 @@ export function FormEditComp() {
             </FormItem>
           )}
         />
-        
         <div>
           {isEditing ? (
             <div className="flex gap-4">
