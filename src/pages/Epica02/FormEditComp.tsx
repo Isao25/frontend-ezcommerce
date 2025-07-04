@@ -61,6 +61,7 @@ export function FormEditComp() {
       id_escuela: 0,
       email: "",
       password: "",
+      codigoqr: "", // Campo opcional como string vacío
     },
   });
 
@@ -117,7 +118,7 @@ export function FormEditComp() {
   const prepareDataForSubmit = (values: UserData) => {
     const submitData = { ...values };
     
-    // Remover el campo codigoqr si está vacío o es undefined
+    // Remover el campo codigoqr si está vacío
     if (!submitData.codigoqr || submitData.codigoqr === "") {
       delete submitData.codigoqr;
     }
@@ -325,18 +326,16 @@ export function FormEditComp() {
               <FormLabel>Código QR (Opcional)</FormLabel>
               <FormControl>
                 <Input
-                  type="file"
-                  accept="image/*"
+                  type="url"
+                  placeholder="https://ejemplo.com/mi-qr-code.jpg"
                   disabled={!isEditing}
-                  onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    field.onChange(file);
-                  }}
+                  value={field.value || ""}
+                  onChange={(e) => field.onChange(e.target.value)}
                 />
               </FormControl>
               <FormMessage />
               <p className="text-sm text-gray-500 mt-1">
-                Sube una imagen de tu código QR (opcional)
+                Ingresa la URL de tu código QR (opcional)
               </p>
             </FormItem>
           )}
