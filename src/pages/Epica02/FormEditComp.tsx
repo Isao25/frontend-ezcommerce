@@ -36,23 +36,14 @@ export function FormEditComp() {
   const userId = authState.userId;
   const { toast } = useToast();
 
-  
   const [isEditing, setIsEditing] = useState(false);
   const [escuelas, setEscuelas] = useState<Escuelas[]>([]);
-  const [userData, setUserData] = useState<UserData>();
-
-  const handleEdit = () => {
-    setIsEditing(true);
-  };
-
-  const handleCancel = () => {
-    form.reset(userData);
-    setIsEditing(false);
-  };
+  const [userData, setUserData] = useState<UserData | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: userData ?? {
+    defaultValues: {
       username: "",
       nombres: "",
       apellido_p: "",
@@ -65,30 +56,51 @@ export function FormEditComp() {
     },
   });
 
-  useEffect(() => {
-    const fetchEscuelas = async () => {
-      try {
-        const response = await fetch(
-          `${baseURLCentralized}/escuelasprofesionales/`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-              Authorization: `Bearer ${authState.accessToken}`,
-            },
-          }
-        );
-        const dataEscuelas = await response.json();
-        setEscuelas(dataEscuelas.results);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchEscuelas();
-  }, []);
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
 
+  const handleCancel = () => {
+    if (userData) {
+      form.reset(userData);
+    }
+    setIsEditing(false);
+  };
+
+  // Función para cargar escuelas
+  const fetchEscuelas = async () => {
+    try {
+      const response = await fetch(
+        `${baseURLCentralized}/escuelasprofesionales/`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${authState.accessToken}`,
+          },
+        }
+      );
+      
+      if (!response.ok) {
+        throw new Error('Error al cargar escuelas');
+      }
+      
+      const dataEscuelas = await response.json();
+      setEscuelas(dataEscuelas.results);
+    } catch (error) {
+      console.error("Error al cargar escuelas:", error);
+      toast({
+        title: "Error",
+        description: "No se pudieron cargar las escuelas",
+        variant: "destructive",
+      });
+    }
+  };
+
+  // Función para cargar datos del usuario
   const fetchData = async () => {
     try {
+      setIsLoading(true);
       const response = await fetch(
         `${baseURLCentralized}/usuarios/${userId}/`,
         {
@@ -99,28 +111,56 @@ export function FormEditComp() {
           },
         }
       );
-      const data = await response.json();
 
+      if (!response.ok) {
+        throw new Error('Error al cargar datos del usuario');
+      }
+
+      const data = await response.json();
       setUserData(data);
+      
+      // Resetear el formulario con los datos obtenidos
+      form.reset({
+        username: data.username || "",
+        nombres: data.nombres || "",
+        apellido_p: data.apellido_p || "",
+        apellido_m: data.apellido_m || "",
+        codigo: data.codigo || "",
+        celular: data.celular || "",
+        id_escuela: data.id_escuela || 0,
+        email: data.email || "",
+        password: data.password || "",
+        codigoqr: data.codigoqr || "",
+      });
     } catch (error) {
-      console.error(error);
+      console.error("Error al cargar datos del usuario:", error);
+      toast({
+        title: "Error",
+        description: "No se pudieron cargar los datos del usuario",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
+  // Cargar escuelas al montar el componente
   useEffect(() => {
-    if (!userData) {
+    fetchEscuelas();
+  }, []);
+
+  // Cargar datos del usuario al montar el componente
+  useEffect(() => {
+    if (userId) {
       fetchData();
     }
-    form.reset(userData);
-  }, [userData]);
+  }, [userId]);
 
-  // 2. Define a submit handler.
+  // Función para enviar los datos
   async function onSubmit(values: UserData) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
     try {
       const response = await fetch(
-       `${baseURLCentralized}/usuarios/${userId}/`,
+        `${baseURLCentralized}/usuarios/${userId}/`,
         {
           method: "PATCH",
           headers: {
@@ -134,16 +174,41 @@ export function FormEditComp() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message ?? "Error en actualizar los datos");
+        throw new Error(errorData.message ?? "Error al actualizar los datos");
       }
+
+      // Actualizar el estado local con los nuevos datos
+      const updatedData = { ...userData, ...values };
+      setUserData(updatedData);
+      
+      // Resetear el formulario con los datos actualizados
+      form.reset(updatedData);
+      
+      setIsEditing(false);
+      
       toast({
         title: "Datos actualizados ✅",
+        description: "Los datos se han actualizado correctamente",
       });
     } catch (error) {
-      console.error("Error en el envio: ", error);
+      console.error("Error en el envío:", error);
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Error al actualizar los datos",
+        variant: "destructive",
+      });
     }
-    setUserData({ ...userData, ...values });
-    setIsEditing(false);
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center p-8">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p>Cargando datos...</p>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -152,64 +217,6 @@ export function FormEditComp() {
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex flex-col items-start gap-6 self-stretch"
       >
-        {/*isMarca ? (
-          <div className="flex flex-col items-start gap-6 self-stretch">
-            <FormField
-              control={form.control}
-              name="nameMarca"
-              render={({ field }) => (
-                <FormItem className="self-stretch">
-                  <FormLabel>Nombre de la marca</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Nombre de la marca"
-                      disabled={!isEditing}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="logoMarca"
-              render={({ field }) => (
-                <FormItem className="self-stretch">
-                  <FormLabel>Logo de la Marca</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Enlace al logo de la marca"
-                      disabled={!isEditing}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="descriptionMarca"
-              render={({ field }) => (
-                <FormItem className="self-stretch">
-                  <FormLabel>Descripcion de la Marca</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Descripción de la Marca"
-                      className="h-24"
-                      disabled={!isEditing}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-        ) : (
-          ""
-        )*/}
         <div className="flex flex-col gap-6 self-stretch sm:gap-12 sm:flex-row">
           <FormField
             control={form.control}
@@ -246,6 +253,7 @@ export function FormEditComp() {
             )}
           />
         </div>
+        
         <div className="flex flex-col gap-6 self-stretch sm:gap-12 sm:flex-row">
           <FormField
             control={form.control}
@@ -269,7 +277,7 @@ export function FormEditComp() {
             name="apellido_m"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel>Aepllido Materno</FormLabel>
+                <FormLabel>Apellido Materno</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Apellido Materno"
@@ -282,6 +290,7 @@ export function FormEditComp() {
             )}
           />
         </div>
+        
         <div className="flex flex-col gap-6 self-stretch sm:gap-12 sm:flex-row">
           <FormField
             control={form.control}
@@ -318,6 +327,7 @@ export function FormEditComp() {
             )}
           />
         </div>
+        
         <FormField
           control={form.control}
           name="id_escuela"
@@ -326,10 +336,11 @@ export function FormEditComp() {
               <FormLabel>Escuela Profesional</FormLabel>
               <Select
                 onValueChange={(value) => field.onChange(Number(value))}
-                defaultValue={field.value?.toString()}
+                value={field.value?.toString()}
+                disabled={!isEditing}
               >
                 <FormControl>
-                  <SelectTrigger disabled={!isEditing}>
+                  <SelectTrigger>
                     <SelectValue placeholder="Selecciona tu escuela" />
                   </SelectTrigger>
                 </FormControl>
@@ -345,6 +356,7 @@ export function FormEditComp() {
             </FormItem>
           )}
         />
+        
         <FormField
           control={form.control}
           name="codigoqr"
@@ -364,6 +376,7 @@ export function FormEditComp() {
             </FormItem>
           )}
         />
+        
         <FormField
           control={form.control}
           name="email"
@@ -381,6 +394,7 @@ export function FormEditComp() {
             </FormItem>
           )}
         />
+        
         <FormField
           control={form.control}
           name="password"
@@ -401,7 +415,7 @@ export function FormEditComp() {
             </FormItem>
           )}
         />
-        {/*<Button type="submit">Submit</Button>*/}
+        
         <div>
           {isEditing ? (
             <div className="flex gap-4">
